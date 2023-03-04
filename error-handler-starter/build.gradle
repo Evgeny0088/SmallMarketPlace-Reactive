@@ -1,0 +1,46 @@
+plugins {
+    id 'java-library'
+    id 'ru.senla-init-plugin' version '1.0.0'
+    id 'maven-publish'
+}
+
+group artifactGroup
+version artifactVersion
+
+apply from: "${project.projectDir}/libraries.gradle"
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    gradlePluginPortal()
+}
+
+dependencies {
+
+    api 'com.marketplace:custom-exception-lib:1.0-SNAPSHOT'
+
+    implementation libpacks.springboot
+    implementation libpacks.cloud
+    implementation libpacks.javax
+
+    testImplementation libpacks.spring_test
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = artifactGroup
+            artifactId = "error-handler-starter"
+            version = artifactVersion
+            from components.java
+        }
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
+
+bootJar {
+    enabled(false)
+}

@@ -1,0 +1,32 @@
+ext {
+    libpacks = [
+            springboot: [
+                    "org.springframework.boot:spring-boot-starter-validation",
+                    'com.fasterxml.jackson.core:jackson-databind:2.14.0'
+            ],
+
+            cloud: [
+                    "org.springframework.cloud:spring-cloud-starter-openfeign:3.1.1",
+                    "org.springframework.boot:spring-boot-starter-webflux"
+            ],
+
+            logback: [
+                    "net.logstash.logback:logstash-logback-encoder:${logstash}",
+                    "ch.qos.logback:logback-classic"
+            ],
+
+            javax: [
+                    "javax.servlet:javax.servlet-api:${javax_servlet_api}"
+            ],
+
+            spring_test: [
+                    "org.springframework.boot:spring-boot-starter-test",
+                    "org.testcontainers:junit-jupiter",
+                    "org.junit.jupiter:junit-jupiter-engine",
+                    "org.junit.jupiter:junit-jupiter",
+                    "org.junit.jupiter:junit-jupiter-params",
+                    "org.mockito:mockito-core",
+                    "com.github.tomakehurst:wiremock:${wiremock}"
+            ]
+    ]
+}
