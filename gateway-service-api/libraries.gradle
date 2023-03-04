@@ -1,0 +1,50 @@
+ext {
+    libpacks = [
+            springboot: [
+                    "org.springframework.boot:spring-boot-starter-actuator",
+                    "org.springframework.boot:spring-boot-starter-validation",
+                    "org.springframework.boot:spring-boot-devtools",
+            ],
+
+            cloud: [
+                    "org.springframework.boot:spring-boot-starter-webflux",
+                    "org.springframework.cloud:spring-cloud-starter-sleuth",
+                    "org.springframework.cloud:spring-cloud-starter-gateway",
+                    'org.springframework.cloud:spring-cloud-starter-config'
+            ],
+
+            utils: [
+                    'com.auth0:java-jwt:3.19.1',
+                    'org.apache.commons:commons-lang3:3.12.0'
+            ],
+
+            custom_starters: [
+                    'com.marketplace:profile-dto-lib:1.0-SNAPSHOT',
+                    'com.marketplace:error-handler-starter:1.0-SNAPSHOT',
+                    'com.marketplace:jwt-starter:1.0-SNAPSHOT'
+            ],
+
+            logback: [
+                    "net.logstash.logback:logstash-logback-encoder:${logstash}",
+                    "ch.qos.logback:logback-classic"
+            ],
+
+            javax: [
+                    "javax.servlet:javax.servlet-api:${javax_servlet_api}"
+            ],
+
+            spring_test: [
+                    "org.springframework.boot:spring-boot-starter-test",
+                    "io.projectreactor:reactor-test",
+                    "org.codehaus.groovy:groovy-all:3.0.10",
+                    "org.junit.jupiter:junit-jupiter-engine",
+                    "org.junit.jupiter:junit-jupiter",
+                    "org.junit.jupiter:junit-jupiter-params",
+                    "org.mockito:mockito-core",
+                    "org.spockframework:spock-core:${spockVersion}",
+                    "org.spockframework:spock-spring:${spockVersion}",
+                    "com.marketplace:test-helper-starter:1.0-SNAPSHOT",
+                    "com.github.tomakehurst:wiremock:${wiremock}"
+            ]
+    ]
+}

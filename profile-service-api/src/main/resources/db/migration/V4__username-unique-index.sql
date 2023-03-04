@@ -1,0 +1,1 @@
+create index profiles_username_unique_index on profiles(username desc);

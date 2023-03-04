@@ -1,0 +1,30 @@
+plugins {
+    id 'java'
+    id 'ru.senla-init-plugin' version '1.0.0'
+}
+
+group 'com.marketplace'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+apply from: "${project.projectDir}/libraries.gradle"
+
+dependencies {
+
+    implementation libpacks.springboot
+    implementation libpacks.cloud
+    implementation libpacks.swagger
+    implementation libpacks.postgresql
+    implementation libpacks.custom_starters
+
+    // test
+    testImplementation libpacks.spring_test
+}
+
+test {
+    useJUnitPlatform()
+}

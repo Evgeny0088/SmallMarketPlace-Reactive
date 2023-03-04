@@ -1,0 +1,5 @@
+{
+  "title":"Authentication error!",
+  "code":401,
+  "detail":"Unexpected error is occurred during token validation."
+}

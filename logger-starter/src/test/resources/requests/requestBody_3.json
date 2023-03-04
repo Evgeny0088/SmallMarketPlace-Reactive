@@ -1,0 +1,17 @@
+[
+  {
+    "username": "test-user1",
+    "email": "marketplace.test@gmail.com",
+    "roles": "USER"
+  },
+  {
+    "username": "test-user2",
+    "email": "marketplace.test@gmail.com",
+    "roles": "ADMIN"
+  },
+  {
+    "username": "test-user3",
+    "email": "marketplace.test@gmail.com",
+    "roles": "MANAGER"
+  }
+]

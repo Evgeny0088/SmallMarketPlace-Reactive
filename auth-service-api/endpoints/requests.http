@@ -1,0 +1,63 @@
+### POST request - save new user
+
+POST http://localhost:8080/auth/auth/api/v1/auth/registration
+Content-Type: application/json
+Marketplace-Name: marketplace-app
+Marketplace-Pass: marketplace-pass
+
+{
+  "username": "user2",
+  "password": "user1",
+  "email": "marketplace.sendto@gmail.com",
+  "roles": "MANAGER MANAGER WRONG ADMIN USER"
+}
+
+### login and get access token
+POST http://localhost:8080/auth/api/v1/auth/login
+Content-Type: application/json
+Marketplace-Name: marketplace-app
+Marketplace-Pass: marketplace-pass
+
+{
+  "username": "user2",
+  "password": "user1",
+  "email": "marketplace.sendto@gmail.com"
+}
+
+### GET request - request email link again for profile confirmation
+GET http://localhost:8080/auth/api/v1/auth/request-email-confirmation/a68dbcd2-2d54-4aa7-a6e4-0365253ae19b
+Content-Type: application/json
+Marketplace-Name: marketplace-app
+Marketplace-Pass: marketplace-pass
+
+### request mail again for registration
+### access-token is required
+POST http://localhost:8080/auth/api/v1/auth/request-email-confirmation
+Content-Type: application/json
+Marketplace-Name: marketplace-app
+Marketplace-Pass: marketplace-pass
+
+{
+  "id": "ec14c4a6-f9e9-410c-bf6c-d8b9e4564963"
+}
+
+###
+GET http://localhost:8080/auth/api-docs
+Content-Type: application/json
+Marketplace-Name: marketplace-app
+Marketplace-Pass: marketplace-pass
+Access-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMl9fc2VjcmV0IiwiUHJvZmlsZS1JZCI6IjM3NWJiMTFjLWIxNGQtNGY2Ni1iNzM4LTZmYTJjM2NmYTQyOCIsImlzcyI6Imh0dHBzOi8vYXV0aG9yaXphdGlvbi1zZXJ2ZXIuY29tIiwiUm9sZXMiOiJNQU5BR0VSIEFETUlOIFVTRVIiLCJleHAiOjE2Nzc1OTk4NzR9.FCR_jerA-sEI3aPp09LkqDG6A2Mtr7iRiT077evM324
+
+### for test only if need to check incoming uri from gateway
+GET http://dev-small-marketplace.com:8080/auth/auth/api/v1/auth/test-endpoint?arg1=any-string&arg2=1000
+Content-Type: application/json
+Marketplace-Name: marketplace-app
+Marketplace-Pass: marketplace-pass
+
+###
+curl -X 'GET' \
+'http://localhost:8080/auth/api-docs' \
+--header 'Access-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMl9fc2VjcmV0IiwiUHJvZmlsZS1JZCI6IjM3NWJiMTFjLWIxNGQtNGY2Ni1iNzM4LTZmYTJjM2NmYTQyOCIsImlzcyI6Imh0dHBzOi8vYXV0aG9yaXphdGlvbi1zZXJ2ZXIuY29tIiwiUm9sZXMiOiJNQU5BR0VSIEFETUlOIFVTRVIiLCJleHAiOjE2Nzc1OTk4NzR9.FCR_jerA-sEI3aPp09LkqDG6A2Mtr7iRiT077evM324' \
+--header 'Marketplace-Name: marketplace-app' \
+--header 'Marketplace-Pass: marketplace-pass' \
+--header 'Content-Type: application/json'

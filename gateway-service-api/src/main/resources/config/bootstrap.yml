@@ -1,0 +1,21 @@
+---
+spring.config:
+    activate.on-profile: dev, main, qa
+
+spring:
+  application:
+    name: ${PROJECT_KEY}-gateway-api
+  cloud.config:
+    uri: http://${SPRING_PROFILES_ACTIVE}-${PROJECT_KEY}-settings-api:8080
+    enabled: true
+    failFast: true
+
+logging:
+  config: classpath:logback.groovy
+
+---
+spring.config:
+  activate.on-profile: test,local
+
+spring.cloud.config:
+  enabled: false

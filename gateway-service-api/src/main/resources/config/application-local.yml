@@ -1,0 +1,32 @@
+com.marketplace:
+  gateway:
+    serverUrl: http://localhost
+    hostPrefix: local
+    port: 8080
+    auth:
+      marketplace-name: marketplace-app
+      marketplace-pass: marketplace-pass
+
+service-road-map:
+    service: (?<service>.*?)
+    auth-not-required-url-list:
+        - ${service-road-map.service}/auth/update-profile/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/confirm
+    auth-required-url-list:
+        - ${service-road-map.service}/auth/api-docs/*
+        - ${service-road-map.service}/profile/api-docs/*
+    blackListWords:
+        - internal
+        - admin
+        - actuator
+    services:
+        -   # authentication services
+            alias: auth
+            name: host
+            port: 8081
+            authRequired: false
+
+        -   # profile services
+            alias: profile
+            name: host
+            port: 8082
+            authRequired: true

@@ -1,0 +1,31 @@
+/*This is generated file with initial batch of dependencies and setups, it is proposed to you
+ to continue storing dependencies you need inside this file, feel free to modify it!
+ */
+
+ext {
+    libpacks = [
+
+            spring: [
+                    'org.springframework:spring-aop',
+                    'org.springframework:spring-aspects'
+            ],
+
+            cloud: [
+                    "org.springframework.boot:spring-boot-starter-webflux",
+                    "org.springframework.cloud:spring-cloud-starter-gateway",
+                    "org.springframework.cloud:spring-cloud-starter-sleuth"
+            ],
+
+            custom_starters: [
+                    'com.marketplace:error-handler-starter:1.0-SNAPSHOT'
+            ],
+
+            test: [
+                    'org.springframework.boot:spring-boot-starter-test',
+                    'org.codehaus.groovy:groovy-all:3.0.9',
+                    "com.github.tomakehurst:wiremock:${wiremock}",
+                    "org.spockframework:spock-core:${spockVersion}",
+                    "org.spockframework:spock-spring:${spockVersion}"
+            ]
+    ]
+}

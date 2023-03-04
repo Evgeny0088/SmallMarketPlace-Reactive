@@ -1,0 +1,49 @@
+/*This is generated file with initial batch of dependencies and setups, it is proposed to you
+ to continue storing dependencies you need inside this file, feel free to modify it!
+ */
+
+ext {
+    libpacks = [
+
+            jwt:[
+                    'com.auth0:java-jwt:3.19.1'
+            ],
+
+            cloud: [
+                    "org.springframework.cloud:spring-cloud-commons",
+                    "org.springframework.cloud:spring-cloud-context",
+                    "org.springframework.cloud:spring-cloud-starter-bootstrap",
+                    "org.springframework.cloud:spring-cloud-starter-config",
+                    "org.springframework.cloud:spring-cloud-starter-sleuth"
+            ],
+
+            logback: [
+                    "net.logstash.logback:logstash-logback-encoder:${logstash}",
+                    "ch.qos.logback:logback-classic"
+            ],
+
+            custom_starters: [
+                    'com.marketplace:profile-dto-lib:1.0-SNAPSHOT',
+                    'com.marketplace:error-handler-starter:1.0-SNAPSHOT'
+            ],
+
+            javax: [
+                    "javax.servlet:javax.servlet-api:${javax_servlet_api}"
+            ],
+
+            spring_test: [
+                    "org.springframework.boot:spring-boot-starter-test",
+                    "org.testcontainers:junit-jupiter",
+                    "org.junit.jupiter:junit-jupiter-engine",
+                    "org.junit.jupiter:junit-jupiter",
+                    "org.junit.jupiter:junit-jupiter-params",
+                    "org.mockito:mockito-core",
+                    "com.github.tomakehurst:wiremock:${wiremock}"
+            ],
+
+            spock: [
+                    "org.spockframework:spock-core:${spockVersion}",
+                    "org.spockframework:spock-spring:${spockVersion}"
+            ]
+    ]
+}

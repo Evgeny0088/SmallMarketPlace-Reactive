@@ -1,0 +1,46 @@
+r2dbc-props:
+  host: localhost
+  username: test
+  password: test
+  database: test
+  port: 5430
+
+spring:
+  application:
+    name: profile-service-api
+  # database
+  datasource:
+    driver-class-name: org.postgresql.Driver
+  r2dbc:
+    username: ${r2dbc-props.username}
+    password: ${r2dbc-props.password}
+    name: ${r2dbc-props.database}
+    url: r2dbc:postgresql://${r2dbc-props.host}:${r2dbc-props.port}/${spring.r2dbc.name}
+  # flyway
+  flyway:
+    url: jdbc:postgresql://${r2dbc-props.host}:${r2dbc-props.port}/${spring.r2dbc.name}
+    user: ${spring.r2dbc.username}
+    password: ${spring.r2dbc.password}
+    enabled: true
+
+# minimum time offset for profile updates
+profile-updates:
+  update-after: 1
+  expired-email-after: 2
+  request-email-after: 3
+  pageable-properties:
+    max-size-per-page: 50
+    default-size: 5
+    default-page: 0
+    sort-direction: DESC
+
+# mail sender configurations
+mail-sender:
+  host: smtp.gmail.com
+  port: 465
+  protocol: smtps
+  auth: true
+  ssl-enable: true
+  username: marketplace.server0088@gmail.com
+  password: enualadqujyyfmwm
+  smtp-debug: true

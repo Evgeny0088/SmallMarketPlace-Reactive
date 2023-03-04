@@ -1,0 +1,45 @@
+plugins {
+    id 'java'
+    id 'ru.senla-init-plugin' version '1.0.0'
+    id 'maven-publish'
+}
+
+group artifactGroup
+version artifactVersion
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+    gradlePluginPortal()
+}
+
+apply from: "$project.projectDir/libraries.gradle"
+
+dependencies {
+
+    compileOnly 'org.projectlombok:lombok:1.18.24'
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+
+    implementation libpacks.cloud
+    implementation libpacks.custom_starters
+    implementation libpacks.test
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = artifactGroup
+            artifactId = "test-helper-starter"
+            version = artifactVersion
+            from components.java
+        }
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
+
+bootJar {
+    enabled(false)
+}

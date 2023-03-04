@@ -1,0 +1,4 @@
+{"title":"Bad input data, please check your inputs!",
+  "errorCode":400,
+  "details":"Profile cannot be updated more often than once per 10 minutes, please wait a bit"
+}

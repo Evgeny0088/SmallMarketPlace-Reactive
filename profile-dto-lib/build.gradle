@@ -1,0 +1,41 @@
+plugins {
+    id 'java'
+    id 'ru.senla-init-plugin' version '1.0.0'
+    id 'maven-publish'
+
+}
+
+group artifactGroup
+version artifactVersion
+
+apply from: "${project.projectDir}/libraries.gradle"
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    gradlePluginPortal()
+}
+
+dependencies {
+    implementation libpacks.spring
+    implementation libpacks.json
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = artifactGroup
+            artifactId = "profile-dto-lib"
+            version = artifactVersion
+            from components.java
+        }
+    }
+}
+
+bootJar {
+    enabled(false)
+}
+
+test {
+    useJUnitPlatform()
+}

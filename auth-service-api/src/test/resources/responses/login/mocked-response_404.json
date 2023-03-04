@@ -1,0 +1,5 @@
+{
+  "title":"Specified resource is not found!",
+  "errorCode":404,
+  "details":"Profile with id ( any id ) is not found."
+}

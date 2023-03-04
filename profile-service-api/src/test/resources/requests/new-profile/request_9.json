@@ -1,0 +1,5 @@
+{
+  "username": "profile",
+  "password": "profile",
+  "roles": "USER USER ADMIN MANAGER WRONG USER MANAGER"
+}

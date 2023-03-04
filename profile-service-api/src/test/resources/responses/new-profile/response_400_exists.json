@@ -1,0 +1,5 @@
+{
+  "title":"Bad input data, please check your inputs!",
+  "errorCode":400,
+  "details":"Profile already exists!"
+}

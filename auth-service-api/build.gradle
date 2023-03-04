@@ -1,0 +1,57 @@
+plugins {
+    id 'java'
+    id 'ru.senla-init-plugin' version '1.0.0'
+}
+
+group artifactGroup
+version artifactVersion
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+apply from: "${project.projectDir}/libraries.gradle"
+
+dependencies {
+
+    implementation libpacks.springboot
+    implementation libpacks.cloud
+    implementation libpacks.utils
+    implementation libpacks.swagger
+    implementation libpacks.javax
+    implementation libpacks.custom_starters
+
+    // test
+    testImplementation libpacks.spring_test
+}
+
+test {
+    useJUnitPlatform()
+}
+
+jar {
+    enabled = false
+}
+
+//######### JAR TASKS ##########
+
+var jar_name = 'auth-service'
+var spring_profile='spring.profiles.active'
+var profile_local='local'
+
+tasks.register("runlocal") {
+    group = "application"
+    description = "Runs the Spring Boot application with the local profile"
+    doFirst {
+        tasks.bootRun.configure {
+            systemProperty("${spring_profile}", "${profile_local}")
+            jvmArgs=["-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=localhost:8081"]
+        }
+    }
+    finalizedBy("bootRun")
+}
+
+//bootRun {
+//    jvmArgs = "-Duser.timezone=UTC"
+//}

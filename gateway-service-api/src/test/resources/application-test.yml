@@ -1,0 +1,43 @@
+spring:
+    application:
+        name: tim-common-gateway-api
+
+com.marketplace:
+  gateway:
+    serverUrl: http://localhost
+    hostPrefix: local
+    port: 8080
+    auth:
+      marketplace-name: test-name
+      marketplace-pass: test-pass
+
+# jwt token
+jwt:
+  secret: test-secret
+  issuer: https://authorization-server.com
+  token-expires-at: 480_000
+
+service-road-map:
+  service: (?<service>.*?)
+  auth-not-required-url-list:
+    - ^${service-road-map.service}/auth/any/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/confirm$
+    - ^${service-road-map.service}/profile/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/confirm$
+  auth-required-url-list:
+    - ${service-road-map.service}/auth/api-docs/*
+    - ${service-road-map.service}/profile/api-docs/*
+  blackListWords:
+    - internal
+    - admin
+    - actuator
+  services:
+    -   # authentication services
+      alias: auth
+      name: host
+      port: 4567
+      authRequired: false
+
+    -   # profile services
+      alias: profile
+      name: host
+      port: 4567
+      authRequired: true

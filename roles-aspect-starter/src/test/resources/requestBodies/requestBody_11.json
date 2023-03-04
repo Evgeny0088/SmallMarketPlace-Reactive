@@ -1,0 +1,30 @@
+{
+  "username": "test-user",
+  "email": "marketplace.test@gmail.com",
+  "roles": "ADMIN",
+  "nestedBody_1": {
+    "any_1": "any",
+    "any_2": "any",
+    "nestedBody_2": {
+      "any_1": "any",
+      "any_2": "any",
+      "nestedBody_3": {
+        "any_1": "any",
+        "any_2": "any",
+        "nestedBody_4": {
+          "any_1": "any",
+          "any_2": "any",
+          "nestedBody_5": {
+            "any_1": "any",
+            "any_2": "any",
+            "nestedBody_6": {
+              "id": "a68dbcd2-2d54-4aa7-a6e4-0365253ae19b",
+              "any_1": "any",
+              "any_2": "any"
+            }
+          }
+        }
+      }
+    }
+  }
+}

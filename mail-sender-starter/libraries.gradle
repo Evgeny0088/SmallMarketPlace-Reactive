@@ -1,0 +1,22 @@
+ext {
+    libpacks = [
+            springboot: [
+                    "org.springframework.boot:spring-boot-starter-mail",
+            ],
+
+            logback: [
+                    "net.logstash.logback:logstash-logback-encoder:${logstash}",
+                    "ch.qos.logback:logback-classic"
+            ],
+
+            spring_test: [
+                    "org.springframework.boot:spring-boot-starter-test",
+                    "org.testcontainers:junit-jupiter",
+                    "org.junit.jupiter:junit-jupiter-engine",
+                    "org.junit.jupiter:junit-jupiter",
+                    "org.junit.jupiter:junit-jupiter-params",
+                    "org.mockito:mockito-core",
+                    "com.github.tomakehurst:wiremock:${wiremock}"
+            ]
+    ]
+}

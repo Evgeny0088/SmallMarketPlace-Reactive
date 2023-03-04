@@ -1,0 +1,5 @@
+# jwt token
+jwt:
+  secret: secret
+  issuer: https://authorization-server.com
+  token-expires-at: 60_000

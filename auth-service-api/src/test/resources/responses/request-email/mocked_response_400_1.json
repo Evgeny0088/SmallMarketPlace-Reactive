@@ -1,0 +1,5 @@
+{
+  "title": "Bad input data, please check your inputs!",
+  "errorCode": 400,
+  "details": "Mail cannot be sent more often than once per 10 minutes"
+}

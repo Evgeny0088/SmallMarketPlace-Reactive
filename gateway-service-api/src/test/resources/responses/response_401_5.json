@@ -1,0 +1,5 @@
+{
+  "title":"Authentication error!",
+  "code":401,
+  "detail":"Algorithm is not valid for this token!"
+}

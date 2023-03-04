@@ -1,0 +1,34 @@
+plugins {
+    id 'java'
+    id 'ru.senla-init-plugin' version '1.0.0'
+    id 'maven-publish'
+}
+
+group artifactGroup
+version artifactVersion
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+apply from: "${project.projectDir}/libraries.gradle"
+
+dependencies {
+    implementation libpacks.springboot
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = artifactGroup
+            artifactId = "mail-sender-starter"
+            version = artifactVersion
+            from components.java
+        }
+    }
+}
+
+test {
+    useJUnitPlatform()
+}

@@ -1,0 +1,45 @@
+plugins {
+    id 'java'
+    id 'ru.senla-init-plugin' version '1.0.0'
+    id 'maven-publish'
+}
+
+group artifactGroup
+version artifactVersion
+
+apply from: "${project.projectDir}/libraries.gradle"
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    gradlePluginPortal()
+}
+
+dependencies {
+
+    implementation libpacks.spring
+    implementation libpacks.cloud
+    implementation libpacks.custom_starters
+
+    testImplementation libpacks.test
+
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = artifactGroup
+            artifactId = "roles-aspect-starter"
+            version = artifactVersion
+            from components.java
+        }
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
+
+bootJar {
+    enabled(false)
+}
