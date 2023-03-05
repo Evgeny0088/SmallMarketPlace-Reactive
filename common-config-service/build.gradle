@@ -1,0 +1,30 @@
+plugins {
+    id 'java'
+    id 'ru.senla-init-plugin' version '1.0.0'
+
+}
+
+group artifactGroup
+version artifactVersion
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+apply from: "${project.projectDir}/libraries.gradle"
+
+dependencies {
+
+    implementation libpacks.cloud
+    implementation libpacks.spring_test
+
+}
+
+test {
+    useJUnitPlatform()
+}
+
+jar {
+    enabled = false
+}

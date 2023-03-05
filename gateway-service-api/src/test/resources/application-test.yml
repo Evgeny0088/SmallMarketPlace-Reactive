@@ -1,6 +1,6 @@
 spring:
     application:
-        name: tim-common-gateway-api
+        name: gateway-service-api
 
 com.marketplace:
   gateway:

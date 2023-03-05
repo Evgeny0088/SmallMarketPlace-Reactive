@@ -1,0 +1,15 @@
+/*This is generated file with initial batch of dependencies and setups, it is proposed to you
+ to continue storing dependencies you need inside this file, feel free to modify it!
+ */
+
+ext {
+    libpacks = [
+            cloud: [
+                    "org.springframework.cloud:spring-cloud-starter-config",
+                    "org.springframework.cloud:spring-cloud-config-server:3.1.2"
+            ],
+            spring_test: [
+                    "org.springframework.boot:spring-boot-starter-test"
+            ]
+    ]
+}

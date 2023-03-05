@@ -4,14 +4,12 @@ spring.config:
 
 spring:
   application:
-    name: ${PROJECT_KEY}-gateway-api
+    name: gateway-service-api
   cloud.config:
-    uri: http://${SPRING_PROFILES_ACTIVE}-${PROJECT_KEY}-settings-api:8080
+#    uri: http://${SPRING_PROFILES_ACTIVE}-${PROJECT_KEY}-settings-api:8080
+    uri: http://localhost:8888
     enabled: true
     failFast: true
-
-logging:
-  config: classpath:logback.groovy
 
 ---
 spring.config:

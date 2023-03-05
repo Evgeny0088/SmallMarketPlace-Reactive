@@ -1,3 +1,15 @@
+spring:
+  application.name: gateway-service-api
+  zipkin.enabled: false
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
+      WRITE_DATES_AS_TIMESTAMPS: false
+    date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
+    default-property-ignore: ignore-unknown
+    deserialization:
+      fail-on-unknown-properties: false
+
 com.marketplace:
   gateway:
     serverUrl: http://localhost
