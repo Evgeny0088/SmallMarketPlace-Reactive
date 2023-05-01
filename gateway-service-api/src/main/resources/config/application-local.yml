@@ -13,7 +13,7 @@ spring:
 com.marketplace:
   gateway:
     serverUrl: http://localhost
-    hostPrefix: local
+    stand: host
     port: 8080
     auth:
       marketplace-name: marketplace-app
@@ -33,12 +33,12 @@ service-road-map:
     services:
         -   # authentication services
             alias: auth
-            name: host
+            name: local
             port: 8081
             authRequired: false
 
         -   # profile services
             alias: profile
-            name: host
+            name: local
             port: 8082
             authRequired: true

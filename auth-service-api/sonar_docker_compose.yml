@@ -1,7 +1,7 @@
 version: "3"
 services:
   sonarqube:
-    image: sonarqube:lts
+    image: sonarqube:8.9.0-community
     ports:
       - "9005:9000"
     environment:

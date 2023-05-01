@@ -36,7 +36,6 @@ jar {
 
 //######### JAR TASKS ##########
 
-var jar_name = 'auth-service'
 var spring_profile='spring.profiles.active'
 var profile_local='local'
 
@@ -46,12 +45,8 @@ tasks.register("runlocal") {
     doFirst {
         tasks.bootRun.configure {
             systemProperty("${spring_profile}", "${profile_local}")
-            jvmArgs=["-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=localhost:8081"]
+            jvmArgs=["-Duser.timezone=UTC, -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=localhost:8081"]
         }
     }
     finalizedBy("bootRun")
 }
-
-//bootRun {
-//    jvmArgs = "-Duser.timezone=UTC"
-//}

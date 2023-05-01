@@ -1,14 +1,14 @@
 ---
 spring.config:
-    activate:
-        on-profile: dev, cuber
+  activate:
+    on-profile: dev, cuber
 
 spring:
     application:
-        name: profile-service-api
+      name: profile-service-api
     cloud.config:
-#        uri: http://${SPRING_PROFILES_ACTIVE}-tim-likes-settings-api:8080
-      uri: http://localhost:8888
+#      uri: http://localhost:8888
+      uri: http://common-config-service-${SPRING_PROFILE}:8888
       enabled: true
       failFast: true
 

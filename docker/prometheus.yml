@@ -1,0 +1,11 @@
+global:
+  scrape_interval: 5s
+  external_labels:
+    monitor: 'monitor'
+
+scrape_configs:
+  - job_name: 'applications'
+    scrape_interval: 5s
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['192.168.31.250:8081', '192.168.31.250:8082', '192.168.31.250:8083', '192.168.31.250:8084']

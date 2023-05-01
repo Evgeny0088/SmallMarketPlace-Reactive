@@ -1,0 +1,59 @@
+version: "3.3"
+services:
+  common-config-service:
+    image: evgeny88docker/common-config-service-dev:latest
+    container_name: common-config-service-dev
+    environment:
+      SPRING_PROFILE: dev
+    restart: always
+    networks:
+      - marketplace-net
+
+  auth-service-api:
+    image: evgeny88docker/auth-service-api-dev:latest
+    container_name: auth-service-api-dev
+    environment:
+      SPRING_PROFILE: dev
+    restart: always
+    depends_on:
+      - common-config-service
+    networks:
+      - marketplace-net
+      
+  profile-service-api:
+    image: evgeny88docker/profile-service-api-dev:latest
+    container_name: profile-service-api-dev
+    environment:
+      EMAIL: ${EMAIL}
+      EMAIL_PASS: ${EMAIL_PASS}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASS: ${POSTGRES_PASS}
+      POSTGRES_DB: ${POSTGRES_DB}
+      SERVICE_HOST_DEV: ${SERVICE_HOST_DEV}
+      SPRING_PROFILE: dev
+    restart: always
+    depends_on:
+      - common-config-service
+    networks:
+      - marketplace-net
+ 
+  gateway-service-api:
+    image: evgeny88docker/gateway-service-api-dev:latest
+    container_name: gateway-service-api-dev
+    environment:
+      SECRET: ${SECRET}
+      PROJECT_NAME: ${PROJECT_NAME}
+      PROJECT_PASS: ${PROJECT_PASS}
+      SERVICE_HOST_DEV: ${SERVICE_HOST_DEV}
+      SPRING_PROFILE: dev
+    ports:
+      - "8080:8080"
+    restart: always
+    depends_on:
+      - common-config-service
+    networks:
+      - marketplace-net
+      
+networks:
+  marketplace-net:
+    external: true

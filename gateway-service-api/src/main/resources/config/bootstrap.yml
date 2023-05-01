@@ -6,8 +6,8 @@ spring:
   application:
     name: gateway-service-api
   cloud.config:
-#    uri: http://${SPRING_PROFILES_ACTIVE}-${PROJECT_KEY}-settings-api:8080
-    uri: http://localhost:8888
+#    uri: http://localhost:8888
+    uri: http://common-config-service-${SPRING_PROFILE}:8888
     enabled: true
     failFast: true
 

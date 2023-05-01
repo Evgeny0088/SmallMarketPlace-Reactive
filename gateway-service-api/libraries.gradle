@@ -8,6 +8,7 @@ ext {
 
             cloud: [
                     "org.springframework.boot:spring-boot-starter-webflux",
+                    "org.springframework.cloud:spring-cloud-starter-bootstrap",
                     "org.springframework.cloud:spring-cloud-starter-sleuth",
                     "org.springframework.cloud:spring-cloud-starter-gateway",
                     'org.springframework.cloud:spring-cloud-starter-config'

@@ -24,12 +24,6 @@ Marketplace-Pass: marketplace-pass
   "email": "marketplace.sendto@gmail.com"
 }
 
-### GET request - request email link again for profile confirmation
-GET http://localhost:8080/auth/api/v1/auth/request-email-confirmation/a68dbcd2-2d54-4aa7-a6e4-0365253ae19b
-Content-Type: application/json
-Marketplace-Name: marketplace-app
-Marketplace-Pass: marketplace-pass
-
 ### request mail again for registration
 ### access-token is required
 POST http://localhost:8080/auth/api/v1/auth/request-email-confirmation

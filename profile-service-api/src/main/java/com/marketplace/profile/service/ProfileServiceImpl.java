@@ -11,6 +11,7 @@ import com.marketplace.profile.dto.ResponseDto;
 import com.marketplace.profile.entity.Profile;
 import com.marketplace.profile.mapper.ProfileMapper;
 import com.marketplace.profile.properties.ProfileUpdateProperties;
+import com.marketplace.profile.properties.ServiceProperties;
 import com.marketplace.profile.repository.ProfileRepo;
 import com.marketplace.profile.repository.RoleRepo;
 import lombok.RequiredArgsConstructor;
@@ -35,6 +36,7 @@ import static com.marketplace.profile.utils.RepositoryUtils.getAllProfiles;
 @Slf4j
 public class ProfileServiceImpl implements ProfileService, Constants, MessageConstants {
 
+    private final ServiceProperties serviceProperties;
     private final ProfileRepo profileRepo;
     private final RoleRepo roleRepo;
     private final MailService mailService;
@@ -57,7 +59,7 @@ public class ProfileServiceImpl implements ProfileService, Constants, MessageCon
                         .doOnComplete(()-> roleSetup(profile, verifiedRoles))
                         .then(profileRepo.save(profile))
                         .doOnSuccess((savedProfile)-> sendMailNotification(savedProfile, profileRepo, mailService,
-                                String.format(MAIL_MESSAGE, savedProfile.getUsername(), AUTH_HOSTNAME, savedProfile.getId()),
+                                String.format(MAIL_MESSAGE, savedProfile.getUsername(), serviceProperties.getName(), savedProfile.getId()),
                                 profileUpdateProps, false))
                         .onErrorMap(Exceptions::propagate)
                 )
@@ -65,10 +67,10 @@ public class ProfileServiceImpl implements ProfileService, Constants, MessageCon
                         .findProfileByUsername(savedProfile.getUsername())
                         .switchIfEmpty(Mono.error(new CustomException(HttpStatus.NOT_FOUND)
                                 .setDetails(String.format(PROFILE_NOT_FOUND, profileDto.getUsername()))))
-                        .map(profileMapper::profileToProfileDto)
+                        .map(profileMapper::profileToProfileDto
                 )
                 .onErrorMap(Exceptions::propagate)
-                .log();
+                .log());
     }
 
     @Override
@@ -76,20 +78,23 @@ public class ProfileServiceImpl implements ProfileService, Constants, MessageCon
         return profileRepo.findProfileByUsername(profileDto.getUsername())
                 .switchIfEmpty(Mono.error(new CustomException(HttpStatus.NOT_FOUND)
                         .setDetails(String.format(PROFILE_NOT_FOUND, profileDto.getUsername()))))
-                .map((foundProfile) -> {
-                    if (!encoder.matches(profileDto.getPassword(), foundProfile.getPassword())){
-                        throw new CustomException(HttpStatus.BAD_REQUEST)
-                                .setDetails(PROFILE_PASSWORD_WRONG);
+                .<ProfileDto>handle((foundProfile, sink) -> {
+                    if (!encoder.matches(profileDto.getPassword(), foundProfile.getPassword())) {
+                        sink.error(new CustomException(HttpStatus.BAD_REQUEST)
+                                .setDetails(PROFILE_PASSWORD_WRONG));
+                        return;
                     }
                     if (!foundProfile.isActive()) {
-                        throw new CustomException(HttpStatus.BAD_REQUEST)
-                                .setDetails(PROFILE_IS_NOT_ACTIVE);
+                        sink.error(new CustomException(HttpStatus.BAD_REQUEST)
+                                .setDetails(PROFILE_IS_NOT_ACTIVE));
+                        return;
                     }
                     if (foundProfile.isBlocked()) {
-                        throw new CustomException(HttpStatus.BAD_REQUEST)
-                                .setDetails(PROFILE_BLOCKED_INFO);
+                        sink.error(new CustomException(HttpStatus.BAD_REQUEST)
+                                .setDetails(PROFILE_BLOCKED_INFO));
+                        return;
                     }
-                    return profileMapper.profileToProfileDto(foundProfile);
+                    sink.next(profileMapper.profileToProfileDto(foundProfile));
                 })
                 .onErrorMap(Exceptions::propagate)
                 .log();
@@ -192,7 +197,7 @@ public class ProfileServiceImpl implements ProfileService, Constants, MessageCon
                 .switchIfEmpty(Mono.error(new CustomException(HttpStatus.NOT_FOUND)
                         .setDetails(String.format(PROFILE_NOT_FOUND, profileId))))
                 .doOnSuccess((savedProfile)-> sendMailNotification(savedProfile, profileRepo, mailService,
-                        String.format(MAIL_MESSAGE, savedProfile.getUsername(), AUTH_HOSTNAME, savedProfile.getId()),
+                        String.format(MAIL_MESSAGE, savedProfile.getUsername(), serviceProperties.getName(), savedProfile.getId()),
                         profileUpdateProps, true)
                 )
                 .then(Mono.just(CONFIRMATION_EMAIL_MESSAGE))

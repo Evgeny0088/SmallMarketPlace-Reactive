@@ -1,7 +1,6 @@
 package com.marketplace.profile.common;
 
 public interface Constants {
-    String AUTH_HOSTNAME = "localhost:8080";
     String ROLE_DELIMITER = " ";
     String PROFILE_EMAIL = "marketplace.sendto@gmail.com";
 

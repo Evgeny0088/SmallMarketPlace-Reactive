@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: itemstorage-service
+  labels:
+    app: itemstorage-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: itemstorage-service
+  template:
+    metadata:
+
+      labels:
+        app: itemstorage-service
+    spec:
+      containers:
+        - name: itemstorage-service
+          image: evgeny88docker/itemstorage-service:1.0
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8081
+          env:
+            # POSTGRES ENVS
+            - name: POSTGRES_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: items-secrets
+                  key: POSTGRES_HOST
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: items-secrets
+                  key: POSTGRES_DB
+            - name: spring.datasource.username
+              valueFrom:
+                secretKeyRef:
+                  name: items-secrets
+                  key: POSTGRES_USER
+            - name: spring.datasource.password
+              valueFrom:
+                secretKeyRef:
+                  name: items-secrets
+                  key: POSTGRES_PASS
+            - name: spring.datasource.url
+              value: "jdbc:postgresql://itemstorage-db-service:5432/$(POSTGRES_DB)?serverTimezone=UTC&createDatabaseIfNotExist=true&autoReconnect=true&allowPublicKeyRetrieval=true&useSSL=false"
+            # REDIS ENVS
+            - name: spring.redis.password
+              valueFrom:
+                secretKeyRef:
+                  name: redis-secrets
+                  key: REDIS_PASS
+            - name: spring.redis.host
+              value: {{REDIS_HOSTNAME}}
+            - name: spring.redis.ulr
+              value: "redis://redis-primary-svc.default.svc.cluster.local:6379"
+            - name: GET_HOSTS_FROM
+              value: dns
+            # KAFKA ENVS
+            - name: KAFKA_BROKER_ID
+              value: "1"
+            - name: spring.kafka.bootstrap-servers
+              value: "http://kafka-0.kafka-service.default.svc.cluster.local:9092"
+            # zipkin ENVS
+            - name: spring.zipkin.base-url
+              value: http://zipkin-server:9411
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: itemstorage-service
+spec:
+  ports:
+    - targetPort: 8081
+      port: 80
+  selector:
+    app: itemstorage-service

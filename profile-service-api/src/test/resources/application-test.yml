@@ -23,6 +23,9 @@ spring:
     password: ${spring.r2dbc.password}
     enabled: true
 
+proxy-server:
+  name: localhost:4567
+
 # minimum time offset for profile updates
 profile-updates:
   update-after: 1
@@ -41,6 +44,6 @@ mail-sender:
   protocol: smtps
   auth: true
   ssl-enable: true
-  username: marketplace.server0088@gmail.com
-  password: enualadqujyyfmwm
+  username: test@gmail.com
+  password: pass
   smtp-debug: true

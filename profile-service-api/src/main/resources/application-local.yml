@@ -1,8 +1,8 @@
 r2dbc-props:
-  host: localhost
-  username: evgeny88
-  password: primera77!
-  database: profiledb
+  host: ${SERVICE_HOST_DEV:localhost}
+  username: ${POSTGRES_USER:usr}
+  password: ${POSTGRES_PASS:usr}
+  database: ${POSTGRES_DB:marketplace}
   port: 5430
 
 spring:
@@ -23,6 +23,9 @@ spring:
     password: ${spring.r2dbc.password}
     enabled: true
 
+proxy-server:
+  name: localhost:8080
+
 # minimum time offset for profile updates
 profile-updates:
   update-after: 1
@@ -41,8 +44,8 @@ mail-sender:
   protocol: smtps
   auth: true
   ssl-enable: true
-  username: marketplace.server0088@gmail.com
-  password: enualadqujyyfmwm
+  username: ${EMAIL}
+  password: ${EMAIL_PASS}
   smtp-debug: true
 
 # open api setup

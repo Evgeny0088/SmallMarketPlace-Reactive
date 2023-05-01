@@ -12,6 +12,6 @@ public class RoutesProperties {
     private String pathPattern = "/.*?/(?<segment>.*)";
     private String replacementPathTemplate = "/${segment}";
     private String serverUrl;
-    private String hostPrefix;
+    private String stand;
     private int port;
 }

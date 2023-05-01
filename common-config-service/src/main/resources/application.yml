@@ -1,12 +1,10 @@
 server:
   port: 8888
-
 spring:
   application:
-    name: common-config-sever
+    name: common-config-service
   cloud.config.server:
     git:
-      uri: https://github.com/Evgeny0088/marketplace-reactive-configs.git
-      search-paths:
-        - configs/{application}
-        - configs/
+      uri: https://github.com/Evgeny0088/marketplace-reactive-configs
+      searchPaths: configs/{application}
+      default-label: main

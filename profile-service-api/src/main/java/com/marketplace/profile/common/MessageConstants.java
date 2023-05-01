@@ -22,7 +22,7 @@ public interface MessageConstants {
     String MAIL_EXPIRED_ERROR = "Mail is expired!";
     String MAIL_MESSAGE = """
             Hello %s, please confirm your profile by following this link below:
-            http://%s/auth/api/v1/auth/update-profile/%s/confirm
+            http://%s/auth/auth/api/v1/auth/update-profile/%s/confirm
             """;
     String CONFIRMATION_EMAIL_MESSAGE = "Confirmation email have been sent to your email box";
 

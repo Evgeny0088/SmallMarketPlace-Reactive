@@ -64,10 +64,13 @@ public class FilterMethods implements Constants {
             ServiceInfo serviceInfo = serviceAggregator.retrieveServiceInfo(serviceAlias);
 
             String newUrl = String.format(API_URL_PATTERN,
-                                    request.getURI().getScheme(),
-                                    DOUBLE_SLASH, routerProperties.getHostPrefix(),
-                                    serviceInfo.getName(), serviceInfo.getPort(),
-                                    targetPath).toLowerCase();
+                    request.getURI().getScheme(),
+                    DOUBLE_SLASH,
+                    serviceInfo.getName(),
+                    routerProperties.getStand(),
+                    serviceInfo.getPort(),
+                    targetPath)
+                    .toLowerCase();
 
             URI newUri = new URI(newUrl);
             Route modifiedRoute = modifyRoute(Objects.requireNonNull(exchange.getAttribute(GATEWAY_ROUTE_ATTR)), newUri);
