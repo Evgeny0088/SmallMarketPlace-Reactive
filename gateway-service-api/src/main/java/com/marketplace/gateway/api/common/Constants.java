@@ -12,7 +12,6 @@ public interface Constants {
     String API_URL_PATTERN = "%s:%s%s%s:%s%s";
     String AUTHENTICATION_IS_REQUIRED_PROPERTY = "authenticationIsRequired";
     String AUTH_NOT_REQUIRED_URL = "authNotRequiredUrl";
-    String AUTH_REQUIRED_URL = "authRequiredUrl";
     String ORIGINAL_URI = "originalUrl";
     String GATEWAY_REQUEST_STATUS = "Incoming request: %s is routed to uri: %s";
     String PATH_PATTERN_REGEX = "^/(?<service>[^/]*)(?<path>/.*)$";

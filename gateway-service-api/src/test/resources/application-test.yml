@@ -22,9 +22,8 @@ service-road-map:
   auth-not-required-url-list:
     - ^${service-road-map.service}/auth/any/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/confirm$
     - ^${service-road-map.service}/profile/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/confirm$
-  auth-required-url-list:
-    - ${service-road-map.service}/auth/api-docs/*
-    - ${service-road-map.service}/profile/api-docs/*
+    - ^${service-road-map.service}/auth/api-docs/*
+    - ^${service-road-map.service}/profile/api-docs/*
   blackListWords:
     - internal
     - admin

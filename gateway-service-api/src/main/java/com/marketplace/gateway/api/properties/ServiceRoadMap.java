@@ -19,11 +19,6 @@ public class ServiceRoadMap implements Constants {
     List<String> authNotRequiredUrlList;
 
     /*
-    ### URL LIST HEADERS AND TOKEN REQUIRED
-    */
-    List<String> authRequiredUrlList;
-
-    /*
     ### NOT ALLOWED WORDS IN INCOMING URL
      */
     List<String> blackListWords;

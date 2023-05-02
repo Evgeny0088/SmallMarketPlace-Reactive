@@ -12,8 +12,12 @@ DOCKER="\U0001f433";
 JET="\U0001f680";
 
 if [ "${WHAT_TO_DO}" == "deploy-only" ]; then
-  docker run --rm --network ${NETWORK} --name ${CONTAINER_NAME} --env SPRING_PROFILE=${SPRING_PROFILE} ${IMAGE} &&\
-  exit 0
+  docker run \
+  --rm --network ${NETWORK} \
+  --name ${CONTAINER_NAME} \
+  --env SPRING_PROFILE=${SPRING_PROFILE} \
+  --env SECRET=${SECRET} \
+  ${IMAGE} && exit 0
 fi
 
 echo -e "tests are started ... ${JET}"

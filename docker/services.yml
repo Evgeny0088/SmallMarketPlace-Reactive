@@ -14,6 +14,7 @@ services:
     container_name: auth-service-api-dev
     environment:
       SPRING_PROFILE: dev
+      SECRET: ${SECRET}
     restart: always
     depends_on:
       - common-config-service

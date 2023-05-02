@@ -23,9 +23,7 @@ service-road-map:
     service: (?<service>.*?)
     auth-not-required-url-list:
         - ${service-road-map.service}/auth/update-profile/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/confirm
-    auth-required-url-list:
-        - ${service-road-map.service}/auth/api-docs/*
-        - ${service-road-map.service}/profile/api-docs/*
+        - ${service-road-map.service}/api-docs/*
     blackListWords:
         - internal
         - admin

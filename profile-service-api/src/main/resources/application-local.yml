@@ -50,8 +50,8 @@ mail-sender:
 
 # open api setup
 springdoc:
-  api-docs.path: /api-docs
-  swagger-ui.path: /api-docs/swagger-ui.html
+  api-docs.path: /api/v1/profile/api-docs
+  swagger-ui.path: ${springdoc.api-docs.path}/swagger-ui.html
 
 server:
   port: 8082

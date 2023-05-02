@@ -42,14 +42,6 @@ public class ServiceAggregatorImpl implements ServiceAggregator, InitializingBea
     }
 
     @Override
-    public boolean verifyAuthRequiredUrlList(String originalPath) {
-        return serviceRoadMap.getAuthRequiredUrlList().stream().anyMatch((url)-> {
-            Pattern pattern = Pattern.compile(url);
-            return pattern.matcher(originalPath).find();
-        });
-    }
-
-    @Override
     public ServiceInfo retrieveServiceInfo(String serviceAlias) {
         ServiceInfo serviceInfo = gatewayServices.get(serviceAlias);
         if (serviceInfo == null){

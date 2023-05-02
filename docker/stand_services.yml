@@ -1,4 +1,4 @@
-version: "3.5"
+version: "3.8"
 services:
   nginx:
     image: nginx:latest
@@ -76,6 +76,28 @@ services:
       - "9050:9090"
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - marketplace-net
+  
+  loki:
+    image: grafana/loki:2.8.0
+    container_name: loki
+    ports:
+      - "3100:3100"
+    volumes:
+      - ./loki-config.yaml:/mnt/config
+    command: -config.file=/mnt/config/loki-config.yaml
+    networks:
+      - marketplace-net
+
+  promtail:
+    image: grafana/promtail:2.8.0
+    container_name: promtail
+    volumes:
+      - ./promtail-config.yaml:/mnt/config
+      - /var/log:/var/log
+    depends_on:
+      - loki
     networks:
       - marketplace-net
 

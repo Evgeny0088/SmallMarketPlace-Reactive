@@ -8,8 +8,6 @@ public interface ServiceAggregator extends Constants {
 
     boolean verifyAuthNotRequiredUrlList(String originalPath);
 
-    boolean verifyAuthRequiredUrlList(String originalPath);
-
     ServiceInfo retrieveServiceInfo(String serviceAlias);
 
 }

@@ -42,7 +42,6 @@ public class FilterMethods implements Constants {
 
         serviceAggregator.verifyBlackListWordInUrl(originalPath);
         exchange.getAttributes().put(AUTH_NOT_REQUIRED_URL, serviceAggregator.verifyAuthNotRequiredUrlList(originalPath));
-        exchange.getAttributes().put(AUTH_REQUIRED_URL, serviceAggregator.verifyAuthRequiredUrlList(originalPath));
         exchange.getAttributes().put(ORIGINAL_URI, originalUri);
         return chain.filter(exchange);
     }
@@ -107,11 +106,7 @@ public class FilterMethods implements Constants {
         String incomingPath = String.valueOf(originalUri);
         String updatedPath = Objects.requireNonNull(route).getUri().toString();
 
-        if (
-                (!(Boolean) exchange.getAttributes().get(AUTH_NOT_REQUIRED_URL)
-                        && (Boolean) exchange.getAttributes().get(AUTHENTICATION_IS_REQUIRED_PROPERTY))
-                || (Boolean) exchange.getAttributes().get(AUTH_REQUIRED_URL)
-        ) {
+        if (!(Boolean) exchange.getAttributes().get(AUTH_NOT_REQUIRED_URL) && (Boolean) exchange.getAttributes().get(AUTHENTICATION_IS_REQUIRED_PROPERTY)) {
             return Mono.fromCallable(()->validateAccessToken(exchange, jwtService))
                 .doOnNext((logger)-> log.info(String.format(GATEWAY_REQUEST_STATUS, incomingPath, updatedPath)))
                 .flatMap((decodedJWT)-> chain.filter(addProfileIdAndRolesToExchange(exchange, decodedJWT)))

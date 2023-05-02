@@ -123,7 +123,7 @@ class GatewayControllerSpec extends BaseSpecification implements Constants, Test
 
     }
 
-    def "verify auth-required paths" () {
+    def "verify open-api paths" () {
         given:
         String requestPath = String.format(requestPath, incomingUrl)
         String requestJson = requestBody == null ? null : readFileAsString(requestBody as String)
@@ -151,15 +151,14 @@ class GatewayControllerSpec extends BaseSpecification implements Constants, Test
         SERVICE_REQUEST | true         | CLIENT_NAME  | CLIENT_PASS | CLOSED_INCOMING_URL_7 | CLOSED_INCOMING_URL_7_EXPECTED | RESPONSE_200     | HttpStatus.OK
         null            | true         | CLIENT_NAME  | CLIENT_PASS | CLOSED_INCOMING_URL_8 | CLOSED_INCOMING_URL_8_EXPECTED | RESPONSE_200     | HttpStatus.OK
 
+        SERVICE_REQUEST | false        | CLIENT_NAME  | CLIENT_PASS | CLOSED_INCOMING_URL_1 | CLOSED_INCOMING_URL_1_EXPECTED | RESPONSE_200     | HttpStatus.OK
+        null            | true         | INVALID      | INVALID     | CLOSED_INCOMING_URL_1 | CLOSED_INCOMING_URL_1_EXPECTED | RESPONSE_200     | HttpStatus.OK
+        SERVICE_REQUEST | false        | INVALID      | INVALID     | CLOSED_INCOMING_URL_1 | CLOSED_INCOMING_URL_1_EXPECTED | RESPONSE_200     | HttpStatus.OK
+        null            | true         | INVALID      | CLIENT_PASS | CLOSED_INCOMING_URL_1 | CLOSED_INCOMING_URL_1_EXPECTED | RESPONSE_200     | HttpStatus.OK
+
         SERVICE_REQUEST | true         | CLIENT_NAME  | CLIENT_PASS | CLOSED_INCOMING_URL_20| CLOSED_INCOMING_URL_20_EXPECTED| RESPONSE_404     | HttpStatus.NOT_FOUND
         null            | true         | CLIENT_NAME  | CLIENT_PASS | CLOSED_INCOMING_URL_21| CLOSED_INCOMING_URL_21_EXPECTED| RESPONSE_404     | HttpStatus.NOT_FOUND
         SERVICE_REQUEST | true         | CLIENT_NAME  | CLIENT_PASS | CLOSED_INCOMING_URL_22| CLOSED_INCOMING_URL_22_EXPECTED| RESPONSE_404     | HttpStatus.NOT_FOUND
-
-        SERVICE_REQUEST | false        | CLIENT_NAME  | CLIENT_PASS | CLOSED_INCOMING_URL_1 | CLOSED_INCOMING_URL_1_EXPECTED | RESPONSE_401_1   | HttpStatus.UNAUTHORIZED
-        null            | true         | INVALID      | CLIENT_PASS | CLOSED_INCOMING_URL_2 | CLOSED_INCOMING_URL_2_EXPECTED | RESPONSE_401_2   | HttpStatus.UNAUTHORIZED
-        SERVICE_REQUEST | true         | CLIENT_NAME  | INVALID     | CLOSED_INCOMING_URL_3 | CLOSED_INCOMING_URL_3_EXPECTED | RESPONSE_401_2   | HttpStatus.UNAUTHORIZED
-        null            | true         | INVALID      | INVALID     | CLOSED_INCOMING_URL_4 | CLOSED_INCOMING_URL_4_EXPECTED | RESPONSE_401_2   | HttpStatus.UNAUTHORIZED
-        SERVICE_REQUEST | false        | INVALID      | INVALID     | CLOSED_INCOMING_URL_5 | CLOSED_INCOMING_URL_5_EXPECTED | RESPONSE_401_2   | HttpStatus.UNAUTHORIZED
 
     }
 
@@ -187,12 +186,12 @@ class GatewayControllerSpec extends BaseSpecification implements Constants, Test
         requestBody     | tokenCondition | incomingUrl         | expectedUrl                  | expectedResponse | statusCode
         SERVICE_REQUEST | CORRECT        | TEST_INCOMING_URL_1 | TEST_INCOMING_URL_1_EXPECTED | RESPONSE_200     | HttpStatus.OK
 
-        null            | EMPTY_T        |CLOSED_INCOMING_URL_1|CLOSED_INCOMING_URL_1_EXPECTED| RESPONSE_401_1   | HttpStatus.UNAUTHORIZED
-        SERVICE_REQUEST | BLANK_T        |CLOSED_INCOMING_URL_2|CLOSED_INCOMING_URL_2_EXPECTED| RESPONSE_401_1   | HttpStatus.UNAUTHORIZED
-        null            | WRONG_SIGN     |CLOSED_INCOMING_URL_3|CLOSED_INCOMING_URL_3_EXPECTED| RESPONSE_401_3   | HttpStatus.UNAUTHORIZED
-        SERVICE_REQUEST | INVALID_SECRET |CLOSED_INCOMING_URL_4|CLOSED_INCOMING_URL_4_EXPECTED| RESPONSE_401_4   | HttpStatus.UNAUTHORIZED
-        null            | WRONG_ALG      |CLOSED_INCOMING_URL_5|CLOSED_INCOMING_URL_5_EXPECTED| RESPONSE_401_5   | HttpStatus.UNAUTHORIZED
-        SERVICE_REQUEST | EXPIRED        |CLOSED_INCOMING_URL_6|CLOSED_INCOMING_URL_6_EXPECTED| RESPONSE_401_6   | HttpStatus.UNAUTHORIZED
-        null            | BAD_FORMATTING |CLOSED_INCOMING_URL_7|CLOSED_INCOMING_URL_7_EXPECTED| RESPONSE_401_7   | HttpStatus.UNAUTHORIZED
+        null            | EMPTY_T        |TEST_INCOMING_URL_1  |TEST_INCOMING_URL_1_EXPECTED  | RESPONSE_401_1   | HttpStatus.UNAUTHORIZED
+        SERVICE_REQUEST | BLANK_T        |TEST_INCOMING_URL_1  |TEST_INCOMING_URL_1_EXPECTED  | RESPONSE_401_1   | HttpStatus.UNAUTHORIZED
+        null            | WRONG_SIGN     |TEST_INCOMING_URL_1  |TEST_INCOMING_URL_1_EXPECTED  | RESPONSE_401_3   | HttpStatus.UNAUTHORIZED
+        SERVICE_REQUEST | INVALID_SECRET |TEST_INCOMING_URL_1  |TEST_INCOMING_URL_1_EXPECTED  | RESPONSE_401_4   | HttpStatus.UNAUTHORIZED
+        null            | WRONG_ALG      |TEST_INCOMING_URL_1  |TEST_INCOMING_URL_1_EXPECTED  | RESPONSE_401_5   | HttpStatus.UNAUTHORIZED
+        SERVICE_REQUEST | EXPIRED        |TEST_INCOMING_URL_1  |TEST_INCOMING_URL_1_EXPECTED  | RESPONSE_401_6   | HttpStatus.UNAUTHORIZED
+        null            | BAD_FORMATTING |TEST_INCOMING_URL_1  |TEST_INCOMING_URL_1_EXPECTED  | RESPONSE_401_7   | HttpStatus.UNAUTHORIZED
     }
 }
