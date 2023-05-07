@@ -5,6 +5,7 @@ services:
     container_name: common-config-service-dev
     environment:
       SPRING_PROFILE: dev
+      JAVA_OPT: "-Xms50M -Xmx50M"
     restart: always
     networks:
       - marketplace-net
@@ -15,6 +16,7 @@ services:
     environment:
       SPRING_PROFILE: dev
       SECRET: ${SECRET}
+      JAVA_OPT: "-Xms50M -Xmx50M"
     restart: always
     depends_on:
       - common-config-service
@@ -32,6 +34,7 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
       SERVICE_HOST_DEV: ${SERVICE_HOST_DEV}
       SPRING_PROFILE: dev
+     # JAVA_OPT: "-Xms100M -Xmx100M"
     restart: always
     depends_on:
       - common-config-service
@@ -47,6 +50,7 @@ services:
       PROJECT_PASS: ${PROJECT_PASS}
       SERVICE_HOST_DEV: ${SERVICE_HOST_DEV}
       SPRING_PROFILE: dev
+      JAVA_OPT: "-Xms50M -Xmx50M"
     ports:
       - "8080:8080"
     restart: always

@@ -5,8 +5,9 @@
 ARG DOCKERHUB=docker.io
 FROM ${DOCKERHUB}/openjdk:17-alpine
 ENV SPRING_PROFILE=default
+ENV JAVA_OPT="-Xms50M -Xmx50M"
 WORKDIR mkdir -p /home/evgeny/app/
 COPY build/libs/*.jar /application.jar
 EXPOSE 8080
 
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom", "-Dspring.profiles.active=${SPRING_PROFILE}", "-jar", "/application.jar"]
+ENTRYPOINT ["java", "-Duser.timezone=UTC", "-Djava.security.egd=file:/dev/./urandom", "-Dspring.profiles.active=${SPRING_PROFILE}", "-Dspring-boot.run.jvmArguments=${JAVA_OPT}", "-jar", "/application.jar"]

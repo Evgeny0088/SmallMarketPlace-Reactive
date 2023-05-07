@@ -4,10 +4,10 @@
 ################ it is single build docker image ######################
 ARG DOCKERHUB=docker.io
 FROM ${DOCKERHUB}/openjdk:17-alpine
-
 ENV SPRING_PROFILE=default
+ENV JAVA_OPT=""
 WORKDIR mkdir -p /home/evgeny/app/
 COPY build/libs/*.jar /application.jar
 EXPOSE 8888
 
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom", "-Dspring.profiles.active=${SPRING_PROFILE}", "-jar", "/application.jar"]
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom", "-Dspring.profiles.active=${SPRING_PROFILE}", "-Dspring-boot.run.jvmArguments=${JAVA_OPT}", "-jar", "/application.jar"]

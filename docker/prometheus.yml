@@ -4,8 +4,12 @@ global:
     monitor: 'monitor'
 
 scrape_configs:
-  - job_name: 'applications'
+  - job_name: 'marketplace_services'
     scrape_interval: 5s
     metrics_path: '/actuator/prometheus'
-    static_configs:
-      - targets: ['192.168.31.250:8081', '192.168.31.250:8082', '192.168.31.250:8083', '192.168.31.250:8084']
+    dns_sd_configs:
+      - names:
+          - 'auth-service-api-dev'
+          - 'profile-service-api-dev'
+        type: 'A'
+        port: 8080

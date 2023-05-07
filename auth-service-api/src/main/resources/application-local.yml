@@ -22,3 +22,12 @@ jwt:
   secret: secret
   issuer: https://authorization-server.com
   token-expires-at: 480_000
+
+# management
+management:
+  endpoint.health.probes.enabled: true
+  metrics.export.prometheus.enabled: true
+  endpoints.web.exposure.include: 'prometheus, health'
+  distribution:
+    percentiles-histogram:
+      '[http.server.requests]': true

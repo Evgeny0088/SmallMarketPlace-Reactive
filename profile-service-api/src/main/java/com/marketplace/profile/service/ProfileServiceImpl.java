@@ -14,6 +14,7 @@ import com.marketplace.profile.properties.ProfileUpdateProperties;
 import com.marketplace.profile.properties.ServiceProperties;
 import com.marketplace.profile.repository.ProfileRepo;
 import com.marketplace.profile.repository.RoleRepo;
+import io.micrometer.core.annotation.Timed;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
@@ -44,6 +45,7 @@ public class ProfileServiceImpl implements ProfileService, Constants, MessageCon
     private final ProfileUpdateProperties profileUpdateProps;
     private final PasswordEncoder encoder;
 
+    @Timed("saveProfileToDB")
     @Transactional
     @Override
     public Mono<ProfileDto> saveProfile(ProfileDto profileDto) {
@@ -73,6 +75,7 @@ public class ProfileServiceImpl implements ProfileService, Constants, MessageCon
                 .log());
     }
 
+    @Timed(value = "verifyIfProfileExistsInDB")
     @Override
     public Mono<ProfileDto> verifyProfile(ProfileDto profileDto) {
         return profileRepo.findProfileByUsername(profileDto.getUsername())
@@ -100,6 +103,7 @@ public class ProfileServiceImpl implements ProfileService, Constants, MessageCon
                 .log();
     }
 
+    @Timed(value = "updateProfileToDB")
     @Transactional
     @Override
     public Mono<ResponseDto<String>> updatedProfile(ProfileDto updatedInputs) {
