@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: grafana
+spec:
+  selector:
+    matchLabels:
+      app: grafana
+  serviceName: "grafana-service"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: grafana
+    spec:
+      containers:
+        - name: grafana-service
+          image: grafana/grafana:main-ubuntu
+          imagePullPolicy: "IfNotPresent"
+          ports:
+            - containerPort: 3000
+          env:
+            - name: GF_SECURITY_ADMIN_USER
+              value: admin
+            - name: GF_SECURITY_ADMIN_PASSWORD
+              value: admin
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: grafana-service
+spec:
+  type: NodePort
+  ports:
+    - protocol: TCP
+      nodePort: 30000
+      port: 3000
+      targetPort: 3000
+  selector:
+    app: grafana
+  sessionAffinity: None
+status:
+  loadBalancer: {}
+
+
+
+
+
+
+
+
+
+
+
+
+

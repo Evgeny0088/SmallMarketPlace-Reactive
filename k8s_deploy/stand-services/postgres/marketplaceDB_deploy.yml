@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: itemstorage-volume
+  name: db-volume
   labels:
     type: local
 spec:
@@ -19,8 +19,8 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   labels:
-    app: itemstorage-db
-  name: itemstorage-volume-claim
+    app: db-volume
+  name: db-volume-claim
 spec:
   storageClassName: manual
   accessModes:
@@ -34,21 +34,21 @@ spec:
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: itemstorage-db
+  name: marketplace-db
 spec:
   selector:
     matchLabels:
-      app: itemstorage-db
-  serviceName: "itemstorage-db-service"
+      app: marketplace-db
+  serviceName: "marketplace-db-service"
   replicas: 1
   template:
     metadata:
       labels:
-        app: itemstorage-db
+        app: marketplace-db
     spec:
       terminationGracePeriodSeconds: 10
       containers:
-        - name: itemstorage-db
+        - name: marketplace-db
           image: postgres:13
           imagePullPolicy: "IfNotPresent"
           ports:
@@ -57,45 +57,45 @@ spec:
             - name: POSTGRES_HOST
               valueFrom:
                 secretKeyRef:
-                  name: items-secrets
+                  name: db-secrets
                   key: POSTGRES_HOST
             - name: POSTGRES_DB
               valueFrom:
                 secretKeyRef:
-                  name: items-secrets
+                  name: db-secrets
                   key: POSTGRES_DB
             - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
-                  name: items-secrets
+                  name: db-secrets
                   key: POSTGRES_USER
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: items-secrets
+                  name: db-secrets
                   key: POSTGRES_PASS
           volumeMounts:
-            - name: itemstorage-volume-claim
-              mountPath: '/data/postgres/itemstorage'
+            - name: db-volume
+              mountPath: '/data/postgres/marketplace-db'
       volumes:
-        - name: itemstorage-volume-claim
+        - name: db-volume
           persistentVolumeClaim:
-            claimName: itemstorage-volume-claim
+            claimName: db-volume-claim
 ---
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: itemstorage-db-service
+  name: marketplace-db-service
   labels:
-    app: itemstorage-db-service
+    app: marketplace-db-service
 spec:
   ports:
-    - name: itemstorage-port
+    - name: db-port
       port: 5432
       targetPort: 5432
   selector:
-    app: itemstorage-db
+    app: marketplace-db
 
 
 

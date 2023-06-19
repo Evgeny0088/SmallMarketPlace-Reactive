@@ -18,7 +18,7 @@ services:
       POSTGRES_PASSWORD: "${POSTGRES_PASS:-usr}"
       POSTGRES_USER: "${POSTGRES_USER:-usr}"
       POSTGRES_DB: "${POSTGRES_DB:-marketplace}"
-      POSTGRES_HOST: marketplace-db
+      POSTGRES_HOST: ${SERVICE_HOST_DEV}
     ports:
       - "5430:5432"
     restart: always
