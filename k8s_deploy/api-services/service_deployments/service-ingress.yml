@@ -1,0 +1,32 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: service-ingress
+  namespace: default
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: cuber-marketplace.com
+      http:
+        paths:
+          - path: /auth
+            pathType: Prefix
+            backend:
+              service:
+                name: gateway-service-api-cuber
+                port:
+                  number: 8080
+          - path: /profile
+            pathType: Prefix
+            backend:
+              service:
+                name: gateway-service-api-cuber
+                port:
+                  number: 8080
+          - path: /api-docs
+            pathType: Prefix
+            backend:
+              service:
+                name: gateway-service-api-cuber
+                port:
+                  number: 8080

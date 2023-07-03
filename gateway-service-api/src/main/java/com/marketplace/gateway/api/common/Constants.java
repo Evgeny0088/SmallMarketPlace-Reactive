@@ -21,6 +21,7 @@ public interface Constants {
     String UNEXPECTED_ERROR = "Unexpected error is occurred during authorization, see reason below.";
     String HEADERS_ERROR_MESSAGE = "Please check if headers are typed correctly.";
     String TOKEN_NOT_PROVIDED = "Token is required!";
+
     String HEADER_ACCESS_TOKEN = "Access-Token";
     String HEADER_PROFILE_ID = "Profile-Id";
     String ROLES = "Roles";

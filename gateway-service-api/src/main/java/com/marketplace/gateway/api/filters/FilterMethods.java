@@ -88,12 +88,16 @@ public class FilterMethods implements Constants {
                                                  GatewayFilterChain chain,
                                                  RouterBaseAuthProperties routerBaseAuthProperties) {
         ServerHttpRequest request = exchange.getRequest();
-        if (
-                !(Boolean) exchange.getAttributes().get(AUTH_NOT_REQUIRED_URL)
-                        && (!routerBaseAuthProperties.getMarketPlaceName().equals(request.getHeaders().getFirst(MARKETPLACE_HEADER_NAME))
-                                || !routerBaseAuthProperties.getMarketPlacePass().equals(request.getHeaders().getFirst(MARKETPLACE_HEADER_PASS)))
-        ) {
-            throw new CustomException(HttpStatus.UNAUTHORIZED).setDetails(HEADERS_ERROR_MESSAGE);
+        String marketPlaceName = request.getHeaders().getFirst(MARKETPLACE_HEADER_NAME);
+        String marketPlacePass = request.getHeaders().getFirst(MARKETPLACE_HEADER_PASS);
+        
+        String fromSettingsName = routerBaseAuthProperties.getMarketPlaceName().trim();
+        String fromSettingsPass = routerBaseAuthProperties.getMarketPlacePass().trim();
+        boolean authIsRequired = (boolean) exchange.getAttributes().get(AUTH_NOT_REQUIRED_URL);
+        
+        if (!authIsRequired && (!fromSettingsName.equals(marketPlaceName) || !fromSettingsPass.equals(marketPlacePass))) {
+            throw new CustomException(HttpStatus.UNAUTHORIZED)
+                                  .setDetails(HEADERS_ERROR_MESSAGE);
         }
         return chain.filter(exchange);
     }

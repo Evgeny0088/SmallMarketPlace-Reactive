@@ -1,11 +1,22 @@
-REDIS_HOSTNAME=$(kubectl exec -i -t redis-primary-0 -- hostname -i)
+#!/bin/bash
+NODE_IP=$(minikube ip)
 
-itemstorage_redis_host=`cat "itemstorage-service_deploy.yml" | sed "s/{{REDIS_HOSTNAME}}/$REDIS_HOSTNAME/g"`
-saleorders_redis_host=`cat "saleorders-service.yml" | sed "s/{{REDIS_HOSTNAME}}/$REDIS_HOSTNAME/g"`
+cat configMaps/service_configs.yml | sed "s/{{SERVICE_HOST_CUBER}}/$NODE_IP/g" > s_copy_1.yml
+cat s_copy_1.yml | sed "s/{{PROJECT_NAME}}/$PROJECT_NAME/g" > s_copy_2.yml
+cat s_copy_2.yml | sed "s/{{PROJECT_PASS}}/$PROJECT_PASS/g" > s_copy_3.yml
+cat s_copy_3.yml | sed "s/{{POSTGRES_USER}}/$POSTGRES_USER/g" > s_copy_4.yml
+cat s_copy_4.yml | sed "s/{{POSTGRES_PASS}}/$POSTGRES_PASS/g" > s_copy_5.yml
+cat s_copy_5.yml | sed "s/{{POSTGRES_DB}}/$POSTGRES_DB/g" > s_copy_6.yml
+cat s_copy_6.yml | sed "s/{{SECRET}}/$SECRET/g" > s_copy_7.yml
+cat s_copy_7.yml | sed "s/{{EMAIL}}/$EMAIL/g" > s_copy_8.yml
+cat s_copy_8.yml | sed "s/{{EMAIL_PASS}}/$EMAIL_PASS/g" > s_copy_9.yml
 
-kubectl apply -f config-service_deploy.yml
-kubectl apply -f gateway-service_deploy.yml
-kubectl apply -f registry-service_deploy.yml
+kubectl apply -f s_copy_9.yml
+kubectl apply -f service_deployments/service-ingress.yml
+kubectl apply -f service_deployments/config-service_deploy.yml
+kubectl apply -f service_deployments/gateway-service_deploy.yml
+kubectl apply -f service_deployments/auth-service_deploy.yml
+kubectl apply -f service_deployments/profile-service_deploy.yml
 
-echo "$itemstorage_redis_host" | kubectl apply -f -
-echo "$saleorders_redis_host" | kubectl apply -f -
+rm -r s_copy_*.yml
+

@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-service-api-cuber
+  labels:
+    app: auth-service-api-cuber
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth-service-api-cuber
+  template:
+    metadata:
+      labels:
+        app: auth-service-api-cuber
+    spec:
+      containers:
+        - name: auth-service-api-cuber
+          image: evgeny88docker/auth-service-api-cuber:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_PROFILE
+              value: cuber
+            - name: JAVA_OPT
+              value: "-Xms50M -Xmx50M"
+            - name: SECRET
+              valueFrom:
+                configMapKeyRef:
+                  name: services-config
+                  key: SECRET
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-service-api-cuber
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+      protocol: TCP
+  selector:
+    app: auth-service-api-cuber

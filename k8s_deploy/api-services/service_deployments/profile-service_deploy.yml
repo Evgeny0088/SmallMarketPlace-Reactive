@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: profile-service-api-cuber
+  labels:
+    app: profile-service-api-cuber
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: profile-service-api-cuber
+  template:
+    metadata:
+      labels:
+        app: profile-service-api-cuber
+    spec:
+      containers:
+        - name: profile-service-api-cuber
+          image: evgeny88docker/profile-service-api-cuber:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_PROFILE
+              value: cuber
+            - name: JAVA_OPT
+              value: "-Xms50M -Xmx50M"
+            - name: SERVICE_HOST_CUBER
+              valueFrom:
+                configMapKeyRef:
+                  name: services-config
+                  key: SERVICE_HOST_CUBER
+            - name: EMAIL
+              valueFrom:
+                configMapKeyRef:
+                  name: services-config
+                  key: EMAIL
+            - name: EMAIL_PASS
+              valueFrom:
+                configMapKeyRef:
+                  name: services-config
+                  key: EMAIL_PASS
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: services-config
+                  key: POSTGRES_DB
+            - name: POSTGRES_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: services-config
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASS
+              valueFrom:
+                configMapKeyRef:
+                  name: services-config
+                  key: POSTGRES_PASS
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: profile-service-api-cuber
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+      protocol: TCP
+  selector:
+    app: profile-service-api-cuber

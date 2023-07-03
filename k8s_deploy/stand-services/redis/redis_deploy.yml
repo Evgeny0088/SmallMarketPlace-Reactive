@@ -63,17 +63,20 @@ spec:
           image: redis:7.0.2
           env:
             - name: REDIS_HOST
-              value: redis-primary-0
-            - name: redis_pass
               valueFrom:
-                secretKeyRef:
-                  name: redis-secrets
+                configMapKeyRef:
+                  name: redis-config
+                  key: REDIS_HOST
+            - name: REDIS_PASS
+              valueFrom:
+                configMapKeyRef:
+                  name: redis-config
                   key: REDIS_PASS
           command:
             - "redis-server"
           args:
             - "--requirepass"
-            - "cHJpbWVyYTc3IQo="
+            - "${REDIS_PASS}"
           ports:
             - containerPort: 6379
           volumeMounts:
@@ -117,8 +120,8 @@ spec:
           env:
             - name: redis_pass
               valueFrom:
-                secretKeyRef:
-                  name: redis-secrets
+                configMapKeyRef:
+                  name: redis-config
                   key: REDIS_PASS
           command:
             - "redis-server"

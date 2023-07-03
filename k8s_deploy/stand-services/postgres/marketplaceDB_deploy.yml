@@ -39,7 +39,7 @@ spec:
   selector:
     matchLabels:
       app: marketplace-db
-  serviceName: "marketplace-db-service"
+  serviceName: marketplace-db
   replicas: 1
   template:
     metadata:
@@ -56,23 +56,23 @@ spec:
           env:
             - name: POSTGRES_HOST
               valueFrom:
-                secretKeyRef:
-                  name: db-secrets
+                configMapKeyRef:
+                  name: postgres-config
                   key: POSTGRES_HOST
             - name: POSTGRES_DB
               valueFrom:
-                secretKeyRef:
-                  name: db-secrets
+                configMapKeyRef:
+                  name: postgres-config
                   key: POSTGRES_DB
             - name: POSTGRES_USER
               valueFrom:
-                secretKeyRef:
-                  name: db-secrets
+                configMapKeyRef:
+                  name: postgres-config
                   key: POSTGRES_USER
             - name: POSTGRES_PASSWORD
               valueFrom:
-                secretKeyRef:
-                  name: db-secrets
+                configMapKeyRef:
+                  name: postgres-config
                   key: POSTGRES_PASS
           volumeMounts:
             - name: db-volume
@@ -86,14 +86,17 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: marketplace-db-service
+  name: marketplace-db
   labels:
-    app: marketplace-db-service
+    app: marketplace-db
 spec:
+  type: NodePort
   ports:
-    - name: db-port
+    - protocol: TCP
+      nodePort: 30032
       port: 5432
       targetPort: 5432
+      name: marketplace
   selector:
     app: marketplace-db
 

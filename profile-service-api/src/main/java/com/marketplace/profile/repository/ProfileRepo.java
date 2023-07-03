@@ -1,7 +1,6 @@
 package com.marketplace.profile.repository;
 
 import com.marketplace.profile.entity.Profile;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.r2dbc.repository.Query;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import reactor.core.publisher.Flux;

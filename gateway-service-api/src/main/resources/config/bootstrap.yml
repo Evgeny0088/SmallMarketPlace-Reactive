@@ -1,6 +1,6 @@
 ---
 spring.config:
-    activate.on-profile: dev, main, qa
+    activate.on-profile: default, dev, cuber
 
 spring:
   application:

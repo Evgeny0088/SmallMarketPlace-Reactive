@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway-service-api-cuber
+  labels:
+    app: gateway-service-api-cuber
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gateway-service-api-cuber
+  template:
+    metadata:
+      labels:
+        app: gateway-service-api-cuber
+    spec:
+      containers:
+        - name: gateway-service-api-cuber
+          image: evgeny88docker/gateway-service-api-cuber:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_PROFILE
+              value: cuber
+            - name: JAVA_OPT
+              value: "-Xms50M -Xmx50M"
+            - name: PROJECT_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: services-config
+                  key: PROJECT_NAME
+            - name: PROJECT_PASS
+              valueFrom:
+                configMapKeyRef:
+                  name: services-config
+                  key: PROJECT_PASS
+            - name: SECRET
+              valueFrom:
+                configMapKeyRef:
+                  name: services-config
+                  key: SECRET
+            - name: SERVICE_HOST_CUBER
+              valueFrom:
+                configMapKeyRef:
+                  name: services-config
+                  key: SERVICE_HOST_CUBER
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: gateway-service-api-cuber
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+      protocol: TCP
+  selector:
+    app: gateway-service-api-cuber

@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: common-config-service-cuber
+  labels:
+    app: common-config-service-cuber
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: common-config-service-cuber
+  template:
+    metadata:
+      labels:
+        app: common-config-service-cuber
+    spec:
+      containers:
+        - name: common-config-service-cuber
+          image: evgeny88docker/common-config-service-cuber:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8888
+          env:
+            - name: SPRING_PROFILE
+              value: cuber
+            - name: JAVA_OPT
+              value: "-Xms50M -Xmx50M"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: common-config-service-cuber
+spec:
+  ports:
+    - targetPort: 8888
+      port: 8888
+  selector:
+    app: common-config-service-cuber
