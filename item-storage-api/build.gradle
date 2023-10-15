@@ -44,7 +44,7 @@ tasks.register("runlocal") {
     doFirst {
         tasks.bootRun.configure {
             systemProperty("${spring_profile}", "${profile_local}")
-            jvmArgs=["-Duser.timezone=UTC, -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=localhost:8082"]
+            jvmArgs=["-Duser.timezone=UTC, -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=localhost:8083"]
         }
     }
     finalizedBy("bootRun")

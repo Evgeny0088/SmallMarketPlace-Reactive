@@ -1,0 +1,45 @@
+r2dbc-props:
+  host: localhost
+  port: 5430
+
+spring:
+  application:
+    name: item-storage-api
+  # database
+  datasource:
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL10Dialect
+    show-sql: true
+    properties:
+      hibernate.jdbc.batch_size: 100
+      hibernate.order_inserts: true
+    hibernate:
+      ddl-auto: validate
+  r2dbc:
+    username: evgeny88
+    password: primera77!
+    name: marketplace
+    url: r2dbc:postgresql://${r2dbc-props.host}:${r2dbc-props.port}/${spring.r2dbc.name}
+  # flyway
+  flyway:
+    url: jdbc:postgresql://${r2dbc-props.host}:${r2dbc-props.port}/${spring.r2dbc.name}
+    user: ${spring.r2dbc.username}
+    password: ${spring.r2dbc.password}
+    enabled: true
+
+# open api setup
+springdoc:
+  api-docs.path: /api/v1/items/api-docs
+  swagger-ui.path: ${springdoc.api-docs.path}/swagger-ui.html
+
+item-properties:
+  size: 5
+
+server:
+  port: 8083
+
+logging:
+  level:
+    root: debug
+

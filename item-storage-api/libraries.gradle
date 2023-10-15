@@ -1,0 +1,61 @@
+ext {
+
+    libpacks = [
+            springboot     : [
+                    "org.springframework.boot:spring-boot-starter-actuator",
+                    "org.springframework.boot:spring-boot-starter-validation",
+                    "org.springframework.boot:spring-boot-devtools",
+                    "org.springframework:spring-jdbc"
+            ],
+
+            cloud          : [
+                    "org.springframework.boot:spring-boot-starter-data-r2dbc",
+                    'org.springframework.boot:spring-boot-starter-data-jpa',
+                    "org.springframework.cloud:spring-cloud-starter-bootstrap",
+                    "org.springframework.cloud:spring-cloud-starter-config",
+                    "org.springframework.boot:spring-boot-starter-webflux",
+                    "org.springframework.cloud:spring-cloud-starter-sleuth"
+            ],
+
+            swagger: [
+                    "org.springdoc:springdoc-openapi-webflux-ui:1.5.9"
+            ],
+
+            custom_starters: [
+                    'com.marketplace:error-handler-reactive-starter:1.0-SNAPSHOT',
+                    'com.marketplace:error-handler-starter:1.0-SNAPSHOT',
+                    'com.marketplace:config-starter:1.0-SNAPSHOT',
+                    'com.marketplace:logger-starter:1.0-SNAPSHOT',
+                    'com.marketplace:roles-aspect-starter:1.0-SNAPSHOT',
+                    'com.marketplace:kafka-starter:1.0-SNAPSHOT'
+            ],
+
+            postgresql     : [
+                    'org.flywaydb:flyway-core',
+                    "io.r2dbc:r2dbc-postgresql",
+                    'org.postgresql:postgresql'
+            ],
+
+            logback        : [
+                    "net.logstash.logback:logstash-logback-encoder:${logstash}",
+                    "ch.qos.logback:logback-classic"
+            ],
+
+            spring_test    : [
+                    "org.springframework.boot:spring-boot-starter-test",
+                    "io.projectreactor:reactor-test",
+                    "org.codehaus.groovy:groovy-all:3.0.10",
+                    'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.3',
+                    "org.testcontainers:junit-jupiter:${testContainers}",
+                    "org.testcontainers:postgresql:${testContainers}",
+                    "org.junit.jupiter:junit-jupiter-engine",
+                    "org.junit.jupiter:junit-jupiter",
+                    "org.junit.jupiter:junit-jupiter-params",
+                    "org.mockito:mockito-core",
+                    "com.github.tomakehurst:wiremock:${wiremock}",
+                    "org.spockframework:spock-core:${spockVersion}",
+                    "org.spockframework:spock-spring:${spockVersion}",
+                    'com.marketplace:test-helper-starter:1.0-SNAPSHOT'
+            ]
+    ]
+}

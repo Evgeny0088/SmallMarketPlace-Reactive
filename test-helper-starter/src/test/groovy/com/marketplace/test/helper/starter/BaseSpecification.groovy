@@ -1,6 +1,5 @@
 package com.marketplace.test.helper.starter
 
-
 import com.marketplace.test.helper.starter.common.Constants
 import com.marketplace.test.helper.starter.specification.AbstractSpecification
 import com.marketplace.test.helper.starter.testContainers.KafkaContainerFactory

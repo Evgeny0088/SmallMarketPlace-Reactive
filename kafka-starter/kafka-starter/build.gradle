@@ -1,0 +1,46 @@
+plugins {
+    id 'java'
+    id 'ru.senla-init-plugin' version '1.0.0'
+    id 'java-library'
+    id 'maven-publish'
+}
+
+group artifactGroup
+version artifactVersion
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+apply from: "${project.projectDir}/libraries.gradle"
+
+dependencies {
+
+    implementation libpacks.springboot
+    implementation libpacks.custom_starters
+    api libpacks.kafka
+
+    // test
+    testImplementation libpacks.spring_test
+}
+
+test {
+    useJUnitPlatform()
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = artifactGroup
+            artifactId = "kafka-starter"
+            version = artifactVersion
+            from components.java
+        }
+    }
+}
+
+jar {
+    enabled = false
+}
+

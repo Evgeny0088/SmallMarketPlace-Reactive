@@ -1,0 +1,39 @@
+/*This is generated file with initial batch of dependencies and setups, it is proposed to you
+ to continue storing dependencies you need inside this file, feel free to modify it!
+ */
+
+ext {
+    libpacks = [
+            springboot: [
+                    "org.springframework.boot:spring-boot-starter-webflux"
+            ],
+
+            custom_starters: [
+                    'com.marketplace:error-handler-reactive-starter:1.0-SNAPSHOT',
+                    'com.marketplace:error-handler-starter:1.0-SNAPSHOT',
+                    'com.marketplace:config-starter:1.0-SNAPSHOT',
+            ],
+
+            kafka: [
+                    "io.projectreactor.kafka:reactor-kafka:1.3.21",
+                    "org.springframework.kafka:spring-kafka:2.8.3",
+            ],
+
+            spring_test: [
+                    "org.springframework.boot:spring-boot-starter-test",
+                    "io.projectreactor:reactor-test",
+                    "org.codehaus.groovy:groovy-all:3.0.10",
+                    'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.3',
+                    "org.testcontainers:junit-jupiter:${testContainers}",
+                    "org.testcontainers:kafka:${testContainers}",
+                    'org.springframework.kafka:spring-kafka-test',
+                    "org.junit.jupiter:junit-jupiter-engine",
+                    "org.junit.jupiter:junit-jupiter",
+                    "org.junit.jupiter:junit-jupiter-params",
+                    "org.mockito:mockito-core",
+                    "org.spockframework:spock-core:${spockVersion}",
+                    "org.spockframework:spock-spring:${spockVersion}",
+                    'com.marketplace:test-helper-starter:1.0-SNAPSHOT'
+            ]
+    ]
+}

@@ -16,7 +16,7 @@ class KafkaContainerFactory implements Constants {
 
     private static KafkaContainer kafkaContainer
 
-    static KafkaContainer getKafkaContainer(Collection<NewTopic> topics) throws ExecutionException, InterruptedException, TimeoutException {
+    static KafkaContainer getKafkaContainer() throws ExecutionException, InterruptedException, TimeoutException {
 
         if (kafkaContainer != null) return kafkaContainer
 
@@ -24,16 +24,6 @@ class KafkaContainerFactory implements Constants {
         kafkaContainer.start()
         String bootstrapServer = kafkaContainer.getBootstrapServers()
         System.setProperty(KAFKA_CONTAINER_BOOTSTRAP_SERVER, bootstrapServer)
-
-        /*
-        create topics via admin client and setup max waiting time for results
-         */
-        try (var admin = AdminClient.create(Map.of(BOOTSTRAP_SERVERS_CONFIG, bootstrapServer))) {
-            def result = admin.createTopics(topics)
-            for (def topicResult : result.values().values()) {
-                topicResult.get(10, TimeUnit.SECONDS)
-            }
-        }
         return kafkaContainer
     }
 }
