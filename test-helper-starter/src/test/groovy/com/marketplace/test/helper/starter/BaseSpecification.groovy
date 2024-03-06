@@ -5,7 +5,6 @@ import com.marketplace.test.helper.starter.specification.AbstractSpecification
 import com.marketplace.test.helper.starter.testContainers.KafkaContainerFactory
 import com.marketplace.test.helper.starter.testContainers.PostgresContainerFactory
 import com.marketplace.test.helper.starter.testContainers.RedisContainerFactory
-import org.apache.kafka.clients.admin.NewTopic
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ActiveProfiles
 import org.testcontainers.containers.GenericContainer
@@ -31,11 +30,8 @@ class BaseSpecification extends AbstractSpecification implements Constants {
     static PostgreSQLContainer postgreSQLContainer
 
     def setupSpec() {
-        NewTopic topic1 = new NewTopic("topic1", 1, (short) 1)
-        NewTopic topic2 = new NewTopic("topic2", 1, (short) 1)
-        kafkaContainer = KafkaContainerFactory.getKafkaContainer(List.of(topic1, topic2))
+        kafkaContainer = KafkaContainerFactory.getKafkaContainer()
         redisContainer = RedisContainerFactory.getRedisContainer()
         postgreSQLContainer = PostgresContainerFactory.getPostgresContainer()
     }
-
 }

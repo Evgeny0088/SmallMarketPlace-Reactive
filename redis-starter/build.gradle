@@ -1,0 +1,46 @@
+plugins {
+    id 'java'
+    id 'ru.senla-init-plugin' version '1.0.0'
+    id 'java-library'
+    id 'maven-publish'
+}
+
+group artifactGroup
+version artifactVersion
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    gradlePluginPortal()
+}
+
+apply from: "${project.projectDir}/libraries.gradle"
+
+dependencies {
+
+    implementation libpacks.springboot
+    implementation libpacks.custom_starters
+    api libpacks.redis
+
+    // test
+    testImplementation libpacks.spring_test
+}
+
+test {
+    useJUnitPlatform()
+}
+
+bootJar{
+    enabled(false)
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = artifactGroup
+            artifactId = "redis-starter"
+            version = artifactVersion
+            from components.java
+        }
+    }
+}

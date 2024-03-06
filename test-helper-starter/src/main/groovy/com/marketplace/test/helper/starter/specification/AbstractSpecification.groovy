@@ -15,7 +15,7 @@ import spock.lang.Specification
 abstract class AbstractSpecification extends Specification implements Constants {
 
     @Autowired
-    ObjectMapper testObjectMapper
+    ObjectMapper mapper
 
     @Autowired
     @Qualifier(TEST_WIREMOCK_SERVER)

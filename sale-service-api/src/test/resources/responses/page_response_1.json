@@ -1,0 +1,39 @@
+{
+  "nextEvaluatedKey":5,
+  "content": {
+    "pageSize":5,
+    "countOfElements":5,
+    "items":[
+      {
+        "itemId":1,
+        "brandId":100,
+        "itemsCount":1,
+        "brandName":"nike"
+      },
+      {
+        "itemId":2,
+        "brandId":100,
+        "itemsCount":2,
+        "brandName":"nike"
+      },
+      {
+        "itemId":3,
+        "brandId":100,
+        "itemsCount":3,
+        "brandName":"nike"
+      },
+      {
+        "itemId":4,
+        "brandId":100,
+        "itemsCount":4,
+        "brandName":"nike"
+      },
+      {
+        "itemId":5,
+        "brandId":100,
+        "itemsCount":5,
+        "brandName":"nike"
+      }
+    ]
+  }
+}

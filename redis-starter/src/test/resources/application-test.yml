@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: kafka-starter-test
+  redis:
+    host: localhost
+    port: 6379
+    password: redis-pass
+    connect-timeout: '10s'
+

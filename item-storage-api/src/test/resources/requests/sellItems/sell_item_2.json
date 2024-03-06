@@ -1,0 +1,9 @@
+{
+  "transactionId": 1,
+  "itemDetails": {
+    "brandName": "nike",
+    "brandId": 100,
+    "itemId": 100,
+    "itemsCount": 1
+  }
+}

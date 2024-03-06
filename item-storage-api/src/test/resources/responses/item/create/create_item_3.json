@@ -1,0 +1,8 @@
+{
+  "message": "Object is created!",
+  "id": 1,
+  "itemType": "ITEM",
+  "parentId": 100,
+  "brandId": 100,
+  "createdAt": "2024-01-05T23:03:00Z"
+}

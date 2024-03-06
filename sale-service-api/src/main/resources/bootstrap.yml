@@ -1,0 +1,19 @@
+---
+spring.config:
+  activate:
+    on-profile: dev, cuber
+
+spring:
+    application:
+      name: sale-service-api
+    cloud.config:
+      uri: http://common-config-service-${SPRING_PROFILE}:8888
+      enabled: true
+      failFast: true
+
+---
+spring.config:
+  activate.on-profile: local
+
+spring.cloud.config:
+  enabled: false

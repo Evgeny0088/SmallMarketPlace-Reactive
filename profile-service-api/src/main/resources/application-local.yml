@@ -1,5 +1,5 @@
 r2dbc-props:
-  host: 192.168.169.36
+  host: localhost
   username: ${POSTGRES_USER:usr}
   password: ${POSTGRES_PASS:usr}
   database: ${POSTGRES_DB:marketplace}

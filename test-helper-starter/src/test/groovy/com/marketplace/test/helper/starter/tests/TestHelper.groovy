@@ -25,7 +25,7 @@ class TestHelper extends BaseSpecification implements TestConstants {
 
     def "mock endpoint, send request with test rest template and get response"(){
         given:
-        String mockedResponse = testObjectMapper.writeValueAsString(readFileAsString(RESPONSE_1))
+        String mockedResponse = mapper.writeValueAsString(readFileAsString(RESPONSE_1))
         String requestPath = baseUrl().concat(TEST_ENDPOINT_1)
 
         when:
@@ -35,7 +35,7 @@ class TestHelper extends BaseSpecification implements TestConstants {
 
         then:
         assert response.getStatusCode() == HttpStatus.OK
-        assert testObjectMapper.writeValueAsString(response.getBody()) == mockedResponse
+        assert mapper.writeValueAsString(response.getBody()) == mockedResponse
     }
 
     def "call endpoint via web test client and get response"(){
@@ -54,7 +54,7 @@ class TestHelper extends BaseSpecification implements TestConstants {
         given:
         String value = VALUE
         Map<String, Object> fields = Map.of(ID, value)
-        Object outputJson = testObjectMapper.readValue(replaceFieldsInJsonString(readFileAsString(inputJson), fields), Object)
+        Object outputJson = mapper.readValue(replaceFieldsInJsonString(readFileAsString(inputJson), fields), Object)
 
         expect:
         assert outputJson[ID] == expValue

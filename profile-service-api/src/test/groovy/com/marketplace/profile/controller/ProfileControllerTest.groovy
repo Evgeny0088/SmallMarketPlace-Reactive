@@ -34,18 +34,18 @@ class ProfileControllerTest extends BaseSpecification {
     def "register new profile"() {
         given:
         String requestPath = baseUrl().concat(COMMON_PATH_PREFIX).concat(SAVE_PROFILE_PATH)
-        Object requestBody = requestJson != null ? testObjectMapper.readValue(readFileAsString(requestJson), Object) : null
+        Object requestBody = requestJson != null ? mapper.readValue(readFileAsString(requestJson), Object) : null
         Consumer<HttpHeaders> headers = headersSetup(MediaType.APPLICATION_JSON, null, null)
 
         when:
         if (postedAgain) {
-            Profile profile = prepareProfile(testObjectMapper, requestBody, profileMapper, false, false)
+            Profile profile = prepareProfile(mapper, requestBody, profileMapper, false, false)
             profileRepo.save(profile).block()
         }
         def result = callServiceForResponse(HttpMethod.POST, expStatus, webTestClient, requestPath, headers, requestBody)
 
         then:
-        verifyNewProfileResponse(result, profileRepo, expResponse, expStatus, expRoles, testObjectMapper, DETAILS_FIELD)
+        verifyNewProfileResponse(result, profileRepo, expResponse, expStatus, expRoles, mapper, DETAILS_FIELD)
 
         where:
         requestJson           | postedAgain | expRoles | expResponse                | expStatus
@@ -67,12 +67,12 @@ class ProfileControllerTest extends BaseSpecification {
     def "update profile" () {
         given:
         String requestPathOnUpdate = baseUrl().concat(COMMON_PATH_PREFIX).concat(UPDATE_PROFILE_PATH)
-        Object requestJsonOnSave = requestForSave != null ? testObjectMapper.readValue(readFileAsString(requestForSave), Object) : null
+        Object requestJsonOnSave = requestForSave != null ? mapper.readValue(readFileAsString(requestForSave), Object) : null
         String requestJsonOnUpdate = requestForUpdate != null ? readFileAsString(requestForUpdate) : null
 
         setupUpdatedTime(updatedTime, profileProperties)
 
-        Profile profile = prepareProfile(testObjectMapper, requestJsonOnSave, profileMapper, true, false)
+        Profile profile = prepareProfile(mapper, requestJsonOnSave, profileMapper, true, false)
         profile.setRoles(currentRoles.join(ROLE_DELIMITER))
         Profile savedProfile = profileRepo.save(profile).block()
 
@@ -87,7 +87,7 @@ class ProfileControllerTest extends BaseSpecification {
 
         then:
         verifyUpdateProfileResponse(response, profileRepo, expResponse, updatedProfileJson, expStatus, expRoles,
-                                                                                savedProfile.getUpdatedAt(), testObjectMapper, DETAILS_FIELD)
+                                                                                savedProfile.getUpdatedAt(), mapper, DETAILS_FIELD)
 
         where:
         requestForSave        | requestForUpdate         | updatedTime | isOwner | profileFound | currentRoles | expRoles | expResponse                 | expStatus
@@ -115,8 +115,8 @@ class ProfileControllerTest extends BaseSpecification {
 
     def "delete profile" () {
         given:
-        Object requestJsonOnSave = testObjectMapper.readValue(readFileAsString(NEW_PROFILE_REQUEST_1), Object)
-        Profile profile = prepareProfile(testObjectMapper, requestJsonOnSave, profileMapper, true, false)
+        Object requestJsonOnSave = mapper.readValue(readFileAsString(NEW_PROFILE_REQUEST_1), Object)
+        Profile profile = prepareProfile(mapper, requestJsonOnSave, profileMapper, true, false)
         profile.setRoles(currentRoles.join(ROLE_DELIMITER))
         Profile savedProfile = profileRepo.save(profile).block()
 
@@ -130,7 +130,7 @@ class ProfileControllerTest extends BaseSpecification {
         def response = callServiceForResponse(HttpMethod.DELETE, expStatus, webTestClient, requestPath, headers, null)
 
         then:
-        verifyDeleteProfileResponse(response, savedProfile.getId(), expStatus, expResponse, testObjectMapper, profileRepo, DETAILS_FIELD)
+        verifyDeleteProfileResponse(response, savedProfile.getId(), expStatus, expResponse, mapper, profileRepo, DETAILS_FIELD)
 
         where:
         isOwner | profileFound | currentRoles | expResponse           | expStatus
@@ -145,8 +145,8 @@ class ProfileControllerTest extends BaseSpecification {
     def "verify profile for authentication" () {
         given:
         String requestPath = baseUrl().concat(COMMON_PATH_PREFIX).concat(VERIFY_PROFILE_PATH)
-        Object requestJsonOnSave = testObjectMapper.readValue(readFileAsString(NEW_PROFILE_REQUEST_5), Object)
-        Profile profile = prepareProfile(testObjectMapper, requestJsonOnSave, profileMapper, active, blocked)
+        Object requestJsonOnSave = mapper.readValue(readFileAsString(NEW_PROFILE_REQUEST_5), Object)
+        Profile profile = prepareProfile(mapper, requestJsonOnSave, profileMapper, active, blocked)
         profile.setRoles(ROLES_2.join(ROLE_DELIMITER))
         Profile savedProfile = profileRepo.save(profile).block()
 
@@ -158,7 +158,7 @@ class ProfileControllerTest extends BaseSpecification {
         def response = callServiceForResponse(HttpMethod.POST, expStatus, webTestClient, requestPath, headers, requestBody)
 
         then:
-        verifyVerifyProfileResponse(response, testObjectMapper, profileRepo, expResponse, expStatus, DETAILS_FIELD)
+        verifyVerifyProfileResponse(response, mapper, profileRepo, expResponse, expStatus, DETAILS_FIELD)
 
         where:
         profileFound | passOK | active | blocked | expResponse                 | expStatus
@@ -172,8 +172,8 @@ class ProfileControllerTest extends BaseSpecification {
 
     def "request mail again" () {
         given:
-        Object profileDtoOnSave = testObjectMapper.readValue(readFileAsString(NEW_PROFILE_REQUEST_1), Object)
-        Profile profile = prepareProfile(testObjectMapper, profileDtoOnSave, profileMapper, true, false)
+        Object profileDtoOnSave = mapper.readValue(readFileAsString(NEW_PROFILE_REQUEST_1), Object)
+        Profile profile = prepareProfile(mapper, profileDtoOnSave, profileMapper, true, false)
         profile.setRoles(ROLES_1.join(ROLE_DELIMITER))
         Profile savedProfile = profileRepo.save(profile).block()
 
@@ -188,7 +188,7 @@ class ProfileControllerTest extends BaseSpecification {
         def response = callServiceForResponse(HttpMethod.POST, expStatus, webTestClient, requestPath, headers, requestJson)
 
         then:
-        verifyRequestMailResponse(response, testObjectMapper, profileRepo, profileId, savedProfile.getEmailSendAt(), CONFIRMATION_EMAIL_MESSAGE, expResponse, expStatus,
+        verifyRequestMailResponse(response, mapper, profileRepo, profileId, savedProfile.getEmailSendAt(), CONFIRMATION_EMAIL_MESSAGE, expResponse, expStatus,
                                                             expStatus == HttpStatus.NOT_FOUND ? DETAILS_FIELD : null)
 
         where:
@@ -208,8 +208,8 @@ class ProfileControllerTest extends BaseSpecification {
 
     def "confirm profile changes" () {
         given:
-        Object requestJsonOnSave = testObjectMapper.readValue(readFileAsString(NEW_PROFILE_REQUEST_2), Object)
-        Profile profile = prepareProfile(testObjectMapper, requestJsonOnSave, profileMapper, false, false)
+        Object requestJsonOnSave = mapper.readValue(readFileAsString(NEW_PROFILE_REQUEST_2), Object)
+        Profile profile = prepareProfile(mapper, requestJsonOnSave, profileMapper, false, false)
         profile.setRoles(ROLES_1.join(ROLE_DELIMITER))
         Profile savedProfile = profileRepo.save(profile).block()
 
@@ -222,7 +222,7 @@ class ProfileControllerTest extends BaseSpecification {
         def response = callServiceForResponse(HttpMethod.GET, expStatus, webTestClient, requestPath, headers, null)
 
         then:
-        verifyConfirmProfileResponse(response, testObjectMapper, profileRepo, profileId, expResponse, expStatus,
+        verifyConfirmProfileResponse(response, mapper, profileRepo, profileId, expResponse, expStatus,
                                                         expStatus == HttpStatus.BAD_REQUEST ? null : DETAILS_FIELD)
 
         where:
@@ -234,8 +234,8 @@ class ProfileControllerTest extends BaseSpecification {
 
     def "block profile" () {
         given:
-        Object requestJsonOnSave = testObjectMapper.readValue(readFileAsString(NEW_PROFILE_REQUEST_3), Object)
-        Profile profile = prepareProfile(testObjectMapper, requestJsonOnSave, profileMapper, false, alreadyBlocked)
+        Object requestJsonOnSave = mapper.readValue(readFileAsString(NEW_PROFILE_REQUEST_3), Object)
+        Profile profile = prepareProfile(mapper, requestJsonOnSave, profileMapper, false, alreadyBlocked)
         String stringifyRoles = currentRoles.join(ROLE_DELIMITER)
         profile.setRoles(stringifyRoles)
         Profile savedProfile = profileRepo.save(profile).block()
@@ -247,7 +247,7 @@ class ProfileControllerTest extends BaseSpecification {
         def response = callServiceForResponse(HttpMethod.GET, expStatus, webTestClient, requestPath, headers, null)
 
         then:
-        verifyBlockedProfileResponse(response, testObjectMapper, profileRepo, blockedCandidate, PROFILE_IS_BLOCKED, expResposne, expStatus,
+        verifyBlockedProfileResponse(response, mapper, profileRepo, blockedCandidate, PROFILE_IS_BLOCKED, expResposne, expStatus,
                                                                                 true, expStatus == HttpStatus.FORBIDDEN ? null : DETAILS_FIELD)
 
         where:
@@ -263,8 +263,8 @@ class ProfileControllerTest extends BaseSpecification {
 
     def "unblock profile" () {
         given:
-        Object requestJsonOnSave = testObjectMapper.readValue(readFileAsString(NEW_PROFILE_REQUEST_3), Object)
-        Profile profile = prepareProfile(testObjectMapper, requestJsonOnSave, profileMapper, false, alreadyBlocked)
+        Object requestJsonOnSave = mapper.readValue(readFileAsString(NEW_PROFILE_REQUEST_3), Object)
+        Profile profile = prepareProfile(mapper, requestJsonOnSave, profileMapper, false, alreadyBlocked)
         String stringifyRoles = currentRoles.join(ROLE_DELIMITER)
         profile.setRoles(stringifyRoles)
         Profile savedProfile = profileRepo.save(profile).block()
@@ -276,7 +276,7 @@ class ProfileControllerTest extends BaseSpecification {
         def response = callServiceForResponse(HttpMethod.GET, expStatus, webTestClient, requestPath, headers, null)
 
         then:
-        verifyBlockedProfileResponse(response, testObjectMapper, profileRepo, unblockedCandidate, PROFILE_IS_UNBLOCKED, expResposne, expStatus,
+        verifyBlockedProfileResponse(response, mapper, profileRepo, unblockedCandidate, PROFILE_IS_UNBLOCKED, expResposne, expStatus,
                                                                                     false, expStatus == HttpStatus.FORBIDDEN ? null : DETAILS_FIELD)
         where:
         profileFound | alreadyBlocked | currentRoles | expResposne               | expStatus
@@ -291,9 +291,9 @@ class ProfileControllerTest extends BaseSpecification {
 
     def "get all unblocked profiles" () {
         given:
-        Object requestJsonOnSave = testObjectMapper.readValue(readFileAsString(NEW_PROFILE_REQUEST_2), Object)
-        List<Profile> unblockedProfiles = prepareProfileBatch(unblockedSize, testObjectMapper, requestJsonOnSave, profileMapper, true, false)
-        List<Profile> blockedProfiles = prepareProfileBatch(2, testObjectMapper, requestJsonOnSave, profileMapper, false, true)
+        Object requestJsonOnSave = mapper.readValue(readFileAsString(NEW_PROFILE_REQUEST_2), Object)
+        List<Profile> unblockedProfiles = prepareProfileBatch(unblockedSize, mapper, requestJsonOnSave, profileMapper, true, false)
+        List<Profile> blockedProfiles = prepareProfileBatch(2, mapper, requestJsonOnSave, profileMapper, false, true)
         unblockedProfiles.addAll(blockedProfiles)
         unblockedProfiles.stream().forEach (profile-> profileRepo.save(profile).subscribe())
         Thread.sleep(300)
@@ -306,7 +306,7 @@ class ProfileControllerTest extends BaseSpecification {
         def response = callServiceForResponse(HttpMethod.GET, expStatus, webTestClient, requestPath, headers, null)
 
         then:
-        verifyPageableProfileListResponse(response, profileProperties, testObjectMapper, UNBLOCKED_PROFILE_LIST,
+        verifyPageableProfileListResponse(response, profileProperties, mapper, UNBLOCKED_PROFILE_LIST,
                                                                 page, size, emptyList, expResponse, expStatus, null)
 
         where:
@@ -326,9 +326,9 @@ class ProfileControllerTest extends BaseSpecification {
 
     def "get all blocked profiles" () {
         given:
-        Object requestJsonOnSave = testObjectMapper.readValue(readFileAsString(NEW_PROFILE_REQUEST_2), Object)
-        List<Profile> blockedProfiles = prepareProfileBatch(blockedSize, testObjectMapper, requestJsonOnSave, profileMapper, false, true)
-        List<Profile> unblockedProfiles = prepareProfileBatch(2, testObjectMapper, requestJsonOnSave, profileMapper, true, false)
+        Object requestJsonOnSave = mapper.readValue(readFileAsString(NEW_PROFILE_REQUEST_2), Object)
+        List<Profile> blockedProfiles = prepareProfileBatch(blockedSize, mapper, requestJsonOnSave, profileMapper, false, true)
+        List<Profile> unblockedProfiles = prepareProfileBatch(2, mapper, requestJsonOnSave, profileMapper, true, false)
         blockedProfiles.addAll(unblockedProfiles)
         blockedProfiles.stream().forEach (profile-> profileRepo.save(profile).subscribe())
         Thread.sleep(300)
@@ -341,7 +341,7 @@ class ProfileControllerTest extends BaseSpecification {
         def response = callServiceForResponse(HttpMethod.GET, expStatus, webTestClient, requestPath, headers, null)
 
         then:
-        verifyPageableProfileListResponse(response, profileProperties, testObjectMapper, BLOCKED_PROFILE_LIST,
+        verifyPageableProfileListResponse(response, profileProperties, mapper, BLOCKED_PROFILE_LIST,
                 page, size, emptyList, expResponse, expStatus, null)
 
         where:

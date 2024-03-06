@@ -6,23 +6,26 @@ plugins {
 group artifactGroup
 version artifactVersion
 
+apply from: "${project.projectDir}/libraries.gradle"
+
 repositories {
     mavenLocal()
     mavenCentral()
+    gradlePluginPortal()
 }
 
-apply from: "${project.projectDir}/libraries.gradle"
-
 dependencies {
-
     implementation libpacks.springboot
     implementation libpacks.cloud
     implementation libpacks.swagger
+    implementation libpacks.redis
+    implementation libpacks.kafka
     implementation libpacks.postgresql
     implementation libpacks.custom_starters
 
     // test
     testImplementation libpacks.spring_test
+
 }
 
 test {

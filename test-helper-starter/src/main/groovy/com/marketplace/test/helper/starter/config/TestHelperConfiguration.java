@@ -1,6 +1,5 @@
 package com.marketplace.test.helper.starter.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.marketplace.test.helper.starter.common.Constants;
@@ -18,14 +17,6 @@ import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options
 @Configuration
 @Profile("test")
 public class TestHelperConfiguration implements Constants {
-
-    @Bean
-    @ConditionalOnMissingBean
-    public ObjectMapper testObjectMapper(){
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.findAndRegisterModules();
-        return objectMapper;
-    }
 
     @Bean(TEST_WIREMOCK_SERVER)
     @ConditionalOnMissingBean

@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: sale-service-api
+  kafka:
+    bootstrap-servers: localhost:9092
+    listener:
+      ack-mode: manual_immediate
+    topics:
+      partitions: 1
+      replicas: 1
+      topics:
+        items-update: items.update
+    consumer:
+      group-id: sale-service-api
+      enable-auto-commit: false
+  redis:
+    host: localhost
+    port: 6378
+    password: ${REDIS_PASS}
+    connect-timeout: '10s'
+    client-type: lettuce
+
+routing:
+  protocol: http
+  service: localhost
+  service-port: 8083
+  uri: ${routing.protocol}://${routing.service}:${routing.service-port}
+
+# open api setup
+springdoc:
+  api-docs.path: /api/v1/sales/api-docs
+  swagger-ui.path: ${springdoc.api-docs.path}/swagger-ui.html
+
+server:
+  port: 8084

@@ -2,6 +2,7 @@ create extension if not exists "pgcrypto";
 
 create table brands (
     id bigserial not null primary key,
+    owner_id varchar(255) not null,
     brand_name varchar(255) not null,
     created_at timestamp not null default current_timestamp,
     constraint unique_bname unique (brand_name)
