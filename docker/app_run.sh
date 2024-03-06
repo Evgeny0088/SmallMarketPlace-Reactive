@@ -11,6 +11,8 @@ declare -a images=(
                    "${DOCKER_HUB}/auth-service-api-dev:latest"
                    "${DOCKER_HUB}/profile-service-api-dev:latest"
                    "${DOCKER_HUB}/gateway-service-api-dev:latest"
+                   "${DOCKER_HUB}/item-service-api-dev:latest"
+                   "${DOCKER_HUB}/sale-service-api-dev:latest"
                    )
 
 echo -e "hi, welcome to marketplace-reactive services!...${JET}\n"

@@ -1,0 +1,20 @@
+---
+spring.config:
+  activate:
+    on-profile: dev, cuber
+
+spring:
+  application:
+    name: item-service-api
+  cloud.config:
+#    uri: http://localhost:8888
+    uri: http://common-config-service-dev:8888
+    enabled: true
+    failFast: true
+
+---
+spring.config:
+  activate.on-profile: local
+
+spring.cloud.config:
+  enabled: false

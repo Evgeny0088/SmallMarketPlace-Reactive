@@ -1,0 +1,60 @@
+spring:
+  application:
+    name: item-service-api
+  # database
+  datasource:
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL10Dialect
+    show-sql: true
+    properties:
+      hibernate.jdbc.batch_size: 100
+      hibernate.order_inserts: true
+    hibernate:
+      ddl-auto: validate
+  r2dbc:
+    name: ${POSTGRES_DB:marketplace}
+    username: ${POSTGRES_USER:usr}
+    password: ${POSTGRES_PASS:usr}
+    url: r2dbc:postgresql://${r2dbc-props.host}:${r2dbc-props.port}/${spring.r2dbc.name}
+  # flyway
+  flyway:
+    url: jdbc:postgresql://${r2dbc-props.host}:${r2dbc-props.port}/${spring.r2dbc.name}
+    user: ${spring.r2dbc.username}
+    password: ${spring.r2dbc.password}
+    enabled: true
+    ignore-migration-patterns:
+      - "*:missing"
+  kafka:
+    bootstrap-servers: ${SERVICE_HOST_DEV}:9092
+    listener:
+      ack-mode: manual_immediate
+    topics:
+      topics:
+        item-transaction-request: item.transaction.request
+        item-transaction-response: item.transaction.response
+    consumer:
+      group-id: item-api
+      enable-auto-commit: false
+  redis:
+    host: ${SERVICE_HOST_DEV}
+    port: 6378
+    password: ${REDIS_PASS}
+    connect-timeout: '10s'
+    client-type: lettuce
+
+# open api setup
+springdoc:
+  api-docs.path: /api/v1/items/api-docs
+  swagger-ui.path: ${springdoc.api-docs.path}/swagger-ui.html
+
+item-properties:
+  size: 5
+  fetchFromCollectionSize: 5
+
+r2dbc-props:
+  host: ${SERVICE_HOST_DEV}
+  port: 5430
+
+server:
+  port: 8083

@@ -34,6 +34,23 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
       SERVICE_HOST_DEV: ${SERVICE_HOST_DEV}
       SPRING_PROFILE: dev
+      # JAVA_OPT: "-Xms100M -Xmx100M"
+    restart: always
+    depends_on:
+      - common-config-service
+    networks:
+      - marketplace-net
+
+  item-service-api:
+    image: evgeny88docker/item-service-api-dev:latest
+    container_name: item-service-api-dev
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASS: ${POSTGRES_PASS}
+      POSTGRES_DB: ${POSTGRES_DB}
+      REDIS_PASS: ${REDIS_PASS}
+      SERVICE_HOST_DEV: ${SERVICE_HOST_DEV}
+      SPRING_PROFILE: dev
      # JAVA_OPT: "-Xms100M -Xmx100M"
     restart: always
     depends_on:
@@ -41,6 +58,20 @@ services:
     networks:
       - marketplace-net
  
+  sale-service-api:
+    image: evgeny88docker/sale-service-api-dev:latest
+    container_name: sale-service-api-dev
+    environment:
+      REDIS_PASS: ${REDIS_PASS}
+      SERVICE_HOST_DEV: ${SERVICE_HOST_DEV}
+      SPRING_PROFILE: dev
+     # JAVA_OPT: "-Xms100M -Xmx100M"
+    restart: always
+    depends_on:
+      - common-config-service
+    networks:
+      - marketplace-net
+
   gateway-service-api:
     image: evgeny88docker/gateway-service-api-dev:latest
     container_name: gateway-service-api-dev

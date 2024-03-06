@@ -1,20 +1,8 @@
 spring:
   application:
     name: sale-service-api
-  kafka:
-    bootstrap-servers: localhost:9092
-    listener:
-      ack-mode: manual_immediate
-    topics:
-      partitions: 1
-      replicas: 1
-      topics:
-        items-update: items.update
-    consumer:
-      group-id: sale-service-api
-      enable-auto-commit: false
   redis:
-    host: localhost
+    host: ${SERVICE_HOST_DEV}
     port: 6378
     password: ${REDIS_PASS}
     connect-timeout: '10s'
@@ -22,7 +10,7 @@ spring:
 
 routing:
   protocol: http
-  service: localhost
+  service: ${SERVICE_HOST_DEV}
   service-port: 8083
   uri: ${routing.protocol}://${routing.service}:${routing.service-port}
 

@@ -37,7 +37,7 @@ jar {
 //######### JAR TASKS ##########
 
 var spring_profile='spring.profiles.active'
-var profile_local='local'
+var profile_local='dev'
 
 tasks.register("runlocal") {
     group = "application"
