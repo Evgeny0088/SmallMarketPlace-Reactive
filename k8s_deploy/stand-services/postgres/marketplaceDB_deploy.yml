@@ -57,8 +57,8 @@ spec:
             - name: POSTGRES_HOST
               valueFrom:
                 configMapKeyRef:
-                  name: postgres-config
-                  key: POSTGRES_HOST
+                  name: host-config
+                  key: SERVICE_HOST_CUBER
             - name: POSTGRES_DB
               valueFrom:
                 configMapKeyRef:

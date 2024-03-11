@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sale-service-api-cuber
+  labels:
+    app: sale-service-api-cuber
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sale-service-api-cuber
+  template:
+    metadata:
+      labels:
+        app: sale-service-api-cuber
+    spec:
+      containers:
+        - name: sale-service-api-cuber
+          image: evgeny88docker/sale-service-api-cuber:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_PROFILE
+              value: cuber
+            - name: JAVA_OPT
+              value: "-Xms50M -Xmx50M"
+            - name: REDIS_PASS
+              valueFrom:
+                configMapKeyRef:
+                  name: redis-config
+                  key: REDIS_PASS
+            - name: SERVICE_HOST_CUBER
+              valueFrom:
+                configMapKeyRef:
+                  name: host-config
+                  key: SERVICE_HOST_CUBER
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: sale-service-api-cuber
+  labels:
+    app: sale-service-api-cuber
+    type: deploy-service
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      targetPort: 8080
+      name: http-web
+      protocol: TCP
+  selector:
+    app: sale-service-api-cuber

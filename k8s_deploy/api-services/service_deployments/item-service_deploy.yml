@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: profile-service-api-cuber
+  name: item-service-api-cuber
   labels:
-    app: profile-service-api-cuber
+    app: item-service-api-cuber
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: profile-service-api-cuber
+      app: item-service-api-cuber
   template:
     metadata:
       labels:
-        app: profile-service-api-cuber
+        app: item-service-api-cuber
     spec:
       containers:
-        - name: profile-service-api-cuber
-          image: evgeny88docker/profile-service-api-cuber:latest
-          imagePullPolicy: IfNotPresent
+        - name: item-service-api-cuber
+          image: evgeny88docker/item-service-api-cuber:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
           env:
@@ -30,16 +30,6 @@ spec:
                 configMapKeyRef:
                   name: host-config
                   key: SERVICE_HOST_CUBER
-            - name: EMAIL
-              valueFrom:
-                configMapKeyRef:
-                  name: api-config
-                  key: EMAIL
-            - name: EMAIL_PASS
-              valueFrom:
-                configMapKeyRef:
-                  name: api-config
-                  key: EMAIL_PASS
             - name: POSTGRES_DB
               valueFrom:
                 configMapKeyRef:
@@ -55,15 +45,20 @@ spec:
                 configMapKeyRef:
                   name: postgres-config
                   key: POSTGRES_PASS
-
+            - name: REDIS_PASS
+              valueFrom:
+                configMapKeyRef:
+                  name: redis-config
+                  key: REDIS_PASS
+        
 ---
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: profile-service-api-cuber
+  name: item-service-api-cuber
   labels:
-    app: profile-service-api-cuber
+    app: item-service-api-cuber
     type: deploy-service
 spec:
   type: ClusterIP
@@ -73,4 +68,4 @@ spec:
       name: http-web
       protocol: TCP
   selector:
-    app: profile-service-api-cuber
+    app: item-service-api-cuber

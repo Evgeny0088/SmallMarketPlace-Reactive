@@ -28,22 +28,22 @@ spec:
             - name: PROJECT_NAME
               valueFrom:
                 configMapKeyRef:
-                  name: services-config
+                  name: api-config
                   key: PROJECT_NAME
             - name: PROJECT_PASS
               valueFrom:
                 configMapKeyRef:
-                  name: services-config
+                  name: api-config
                   key: PROJECT_PASS
             - name: SECRET
               valueFrom:
                 configMapKeyRef:
-                  name: services-config
+                  name: api-config
                   key: SECRET
             - name: SERVICE_HOST_CUBER
               valueFrom:
                 configMapKeyRef:
-                  name: services-config
+                  name: host-config
                   key: SERVICE_HOST_CUBER
 
 ---
@@ -52,10 +52,14 @@ apiVersion: v1
 kind: Service
 metadata:
   name: gateway-service-api-cuber
+  labels:
+    app: gateway-service-api-cuber
 spec:
+  type: ClusterIP
   ports:
     - port: 8080
       targetPort: 8080
+      name: http-web
       protocol: TCP
   selector:
     app: gateway-service-api-cuber

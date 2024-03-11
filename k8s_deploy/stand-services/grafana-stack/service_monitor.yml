@@ -1,0 +1,22 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: api-monitor
+  namespace: default
+spec:
+  endpoints:
+    - port: http-web
+      interval: 30s
+      path: /actuator/prometheus
+      scheme: http
+  namespaceSelector:
+    matchNames:
+      - default
+  selector:
+    matchLabels:
+      type: deploy-service
+  targetLabels:
+    - type
+    - app
+      
+

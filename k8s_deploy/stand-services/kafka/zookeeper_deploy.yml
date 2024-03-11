@@ -5,9 +5,10 @@ metadata:
     app: zookeeper-service
   name: zookeeper-service
 spec:
-  type: ClusterIP
+  type: NodePort
   ports:
     - name: zookeeper-port
+      nodePort: 30081
       port: 2181
       targetPort: 2181
   selector:
@@ -16,13 +17,12 @@ spec:
 ---
 
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
   name: zookeeper
   labels:
     app: zookeeper
 spec:
-  serviceName: zookeeper-service
   replicas: 1
   selector:
     matchLabels:

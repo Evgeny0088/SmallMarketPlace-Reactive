@@ -32,8 +32,11 @@ kind: Service
 metadata:
   name: common-config-service-cuber
 spec:
+  type: ClusterIP
   ports:
-    - targetPort: 8888
-      port: 8888
+    - port: 8888
+      targetPort: 8888
+      name: service-port
+      protocol: TCP
   selector:
     app: common-config-service-cuber

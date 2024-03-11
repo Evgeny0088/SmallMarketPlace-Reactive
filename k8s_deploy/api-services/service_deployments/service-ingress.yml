@@ -23,6 +23,20 @@ spec:
                 name: gateway-service-api-cuber
                 port:
                   number: 8080
+          - path: /item
+            pathType: Prefix
+            backend:
+              service:
+                name: gateway-service-api-cuber
+                port:
+                  number: 8080
+          - path: /sale
+            pathType: Prefix
+            backend:
+              service:
+                name: gateway-service-api-cuber
+                port:
+                  number: 8080
           - path: /api-docs
             pathType: Prefix
             backend:

@@ -1,15 +1,20 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
+  name: host-config
+data:
+  SERVICE_HOST_CUBER: {{SERVICE_HOST_CUBER}} 
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
   name: kafka-config
 data:
-  BOOTSTRAP: "kafka-1:9092" 
-  BROKER_ID: "1"
-  ADVERTISED_LISTENERS: "INTERNAL://:9092,EXTERNAL://{{NODE_IP}}:30092"
-  LISTENER_SECURITY_PROTOCOL_MAP: "INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT,PLAINTEXT:PLAINTEXT"
+  ADVERTISED_LISTENERS: "INTERNAL://kafka-service:9092,EXTERNAL://:30092"
+  LISTENER_SECURITY_PROTOCOL_MAP: "EXTERNAL:PLAINTEXT,INTERNAL:PLAINTEXT"
   ZOOKEEPER_CONNECT: "zookeeper-service:2181"
   PLAINTEXT_LISTENER: "yes"
-  LISTENERS: "INTERNAL://:9092,EXTERNAL://:30092"
   INTERNAL_LISTENER_NAME: "INTERNAL"
   TOPIC_REPLICATION_FACTOR: "1"
 
@@ -21,7 +26,6 @@ metadata:
   name: redis-config
 data:
   REDIS_PASS: {{REDIS_PASS}}
-  REDIS_HOST: {{REDIS_HOST}}
 
 ---
 
@@ -30,7 +34,6 @@ kind: ConfigMap
 metadata:
   name: postgres-config
 data:
-  POSTGRES_HOST: {{DB_HOST}}
   POSTGRES_DB: {{DB_NAME}}
   POSTGRES_USER: {{DB_USER}}
   POSTGRES_PASS: {{DB_PASS}}

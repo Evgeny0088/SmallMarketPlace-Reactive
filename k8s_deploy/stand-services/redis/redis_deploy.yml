@@ -8,7 +8,7 @@ spec:
   type: NodePort
   ports:
     - protocol: TCP
-      nodePort: 30010
+      nodePort: 30078
       port: 6379
       targetPort: 6379
       name: redis
@@ -63,20 +63,14 @@ spec:
           image: redis:7.0.2
           env:
             - name: REDIS_HOST
-              valueFrom:
-                configMapKeyRef:
-                  name: redis-config
-                  key: REDIS_HOST
+              value: redis-primary-svc
             - name: REDIS_PASS
               valueFrom:
                 configMapKeyRef:
                   name: redis-config
                   key: REDIS_PASS
-          command:
-            - "redis-server"
-          args:
-            - "--requirepass"
-            - "${REDIS_PASS}"
+          command: ["redis-server"]
+          args: ["--requirepass $(REDIS_PASS)"]
           ports:
             - containerPort: 6379
           volumeMounts:
@@ -104,7 +98,7 @@ metadata:
     app: redis
 spec:
   serviceName: redis-replica-svc
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       name: redis-replica
@@ -118,7 +112,7 @@ spec:
         - name: redis
           image: redis:7.0.2
           env:
-            - name: redis_pass
+            - name: REDIS_PASS
               valueFrom:
                 configMapKeyRef:
                   name: redis-config
@@ -130,7 +124,7 @@ spec:
             - "redis-primary-svc"
             - "6379"
             - "--masterauth"
-            - "$(redis_pass)"
+            - "$(REDIS_PASS)"
           volumeMounts:
             - name: datadir
               mountPath: /data/redis_data

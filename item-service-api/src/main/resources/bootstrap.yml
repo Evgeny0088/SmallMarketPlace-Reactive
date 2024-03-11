@@ -8,7 +8,7 @@ spring:
     name: item-service-api
   cloud.config:
 #    uri: http://localhost:8888
-    uri: http://common-config-service-dev:8888
+    uri: http://common-config-service-${SPRING_PROFILE}:8888
     enabled: true
     failFast: true
 
